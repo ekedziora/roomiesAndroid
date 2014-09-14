@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Roomies</string>
+    <string name="welcome">Hello roomie!</string>
+    <string name="loginColon">Login:</string>
+    <string name="passwordColon">Password:</string>
+    <string name="login">Login</string>
+    <string name="noAccount">No account?</string>
+    <string name="register">Register</string>
+    <string name="action_settings">Settings</string>
+    <string name="confirmPassword">Confirm password</string>
+    <string name="confirmPasswordColon">Confirm password:</string>
+    <string name="mail">E-mail</string>
+    <string name="mailColon">E-mail:</string>
+    <string name="name">Name</string>
+    <string name="nameColon">Name:</string>
+    <string name="surnameColon">Surname:</string>
+    <string name="ageColon">Age:</string>
+</resources>
