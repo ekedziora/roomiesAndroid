@@ -9,9 +9,12 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.android.gms.auth.GoogleAuthUtil;
 import com.google.android.gms.common.AccountPicker;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 
@@ -36,7 +39,17 @@ public class LoginActivity extends Activity {
         findViewById(R.id.login_loginButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i("Accounts", Joiner.on(", ").join(getAccountNames()));
+                Log.i("Dupa", Joiner.on(", ").join(getAccountNames()));
+
+                int status = GooglePlayServicesUtil.isGooglePlayServicesAvailable(getApplicationContext());
+                if (status != ConnectionResult.SUCCESS)
+                {
+                    Log.e("Dupa", String.valueOf(status));
+                    Toast.makeText(getApplicationContext(), "DUPA", Toast.LENGTH_LONG).show();
+                    finish();
+                    return;
+                }
+
                 Intent intent = AccountPicker.newChooseAccountIntent(null, null, new String[]{"com.google"},
                         false, null, null, null, null);
                 startActivityForResult(intent, GET_ACCOUNT_CODE);
