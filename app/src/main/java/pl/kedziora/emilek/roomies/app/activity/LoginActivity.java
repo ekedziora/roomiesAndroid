@@ -1,4 +1,4 @@
-package pl.kedziora.emilek.roomies.activities;
+package pl.kedziora.emilek.roomies.app.activity;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
