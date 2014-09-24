@@ -1,4 +1,4 @@
-package pl.kedziora.emilek.roomies.utils;
+package pl.kedziora.emilek.roomies.app.utils;
 
 import android.app.AlertDialog;
 import android.content.Context;

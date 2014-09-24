@@ -10,8 +10,10 @@ import java.util.List;
 import java.util.Map;
 
 import pl.kedziora.emilek.roomies.app.annotation.AndroidResourceId;
+import pl.kedziora.emilek.roomies.app.annotation.MaxLength;
 import pl.kedziora.emilek.roomies.app.annotation.NotBlank;
 import pl.kedziora.emilek.roomies.app.annotation.NotEmpty;
+import pl.kedziora.emilek.roomies.app.validator.impl.MaxLengthValidator;
 import pl.kedziora.emilek.roomies.app.validator.impl.NotBlankValidator;
 import pl.kedziora.emilek.roomies.app.validator.impl.NotEmptyValidator;
 
@@ -90,6 +92,13 @@ public class FormValidator <T> {
             else if (annotation.annotationType().equals(NotBlank.class)) {
                 if (NotBlankValidator.isBlank(fieldValue)) {
                     String message = field.getAnnotation(NotBlank.class).message();
+                    validationMessages.add(message);
+                }
+            }
+            else if (annotation.annotationType().equals(MaxLength.class)) {
+                int maxLength = field.getAnnotation(MaxLength.class).maxLength();
+                if (MaxLengthValidator.isLongerThenMaxLength(fieldValue, maxLength)) {
+                    String message = String.format(field.getAnnotation(MaxLength.class).message(), maxLength);
                     validationMessages.add(message);
                 }
             }

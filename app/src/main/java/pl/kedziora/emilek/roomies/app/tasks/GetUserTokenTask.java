@@ -1,7 +1,6 @@
-package pl.kedziora.emilek.roomies.tasks;
+package pl.kedziora.emilek.roomies.app.tasks;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -14,11 +13,9 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 
 import java.io.IOException;
 
-import pl.kedziora.emilek.roomies.activities.LoginActivity;
-import pl.kedziora.emilek.roomies.utils.AlertDialogUtils;
-import pl.kedziora.emilek.roomies.utils.ErrorMessages;
-
-import static android.support.v4.app.ActivityCompat.startActivityForResult;
+import pl.kedziora.emilek.roomies.app.activity.LoginActivity;
+import pl.kedziora.emilek.roomies.app.utils.AlertDialogUtils;
+import pl.kedziora.emilek.roomies.app.utils.ErrorMessages;
 
 /**
  * Created by kedziora on 2014-09-24.
@@ -64,9 +61,6 @@ public class GetUserTokenTask extends AsyncTask<Void, Void, String> {
             }
             AlertDialogUtils.showDefaultAlertDialog(activity, "Something's wrong", message, "OK");
         }
-        else {
-            Log.i("HERE IS TOKEN!!!!!!!", result); // tu nie ma tokenu jeszcze
-        }
         return;
     }
 
@@ -76,11 +70,11 @@ public class GetUserTokenTask extends AsyncTask<Void, Void, String> {
             return GoogleAuthUtil.getToken(activity, mail, scope);
         } catch (GooglePlayServicesAvailabilityException e) {
             GooglePlayServicesUtil.getErrorDialog(e.getConnectionStatusCode(), activity,
-                    LoginActivity.REQUEST_AUTHORIZATION).show();
+                    LoginActivity.REQUEST_AUTHORIZATION_CODE).show();
             Log.e("Get token", "Exception while getting token", e);
             return null;
         } catch (UserRecoverableAuthException e) {
-            activity.startActivityForResult(e.getIntent(), LoginActivity.REQUEST_AUTHORIZATION);
+            activity.startActivityForResult(e.getIntent(), LoginActivity.REQUEST_AUTHORIZATION_CODE);
             Log.e("Get token", "Exception while getting token", e);
             return null;
         } catch (IOException e) {

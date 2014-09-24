@@ -13,5 +13,6 @@ import java.lang.annotation.Target;
 public @interface MaxLength {
 
     int maxLength();
+    String message() default "Field length must be less then %d";
 
 }

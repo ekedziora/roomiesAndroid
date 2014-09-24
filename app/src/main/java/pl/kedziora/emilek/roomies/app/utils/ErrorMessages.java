@@ -1,4 +1,4 @@
-package pl.kedziora.emilek.roomies.utils;
+package pl.kedziora.emilek.roomies.app.utils;
 
 /**
  * Created by kedziora on 2014-09-24.

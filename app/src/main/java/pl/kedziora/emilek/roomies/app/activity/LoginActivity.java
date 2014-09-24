@@ -2,8 +2,6 @@ package pl.kedziora.emilek.roomies.app.activity;
 
 import android.accounts.AccountManager;
 import android.app.Activity;
-import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -21,9 +19,9 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 import java.io.Serializable;
 
 import pl.kedziora.emilek.roomies.R;
-import pl.kedziora.emilek.roomies.tasks.GetUserTokenTask;
-import pl.kedziora.emilek.roomies.utils.AlertDialogUtils;
-import pl.kedziora.emilek.roomies.utils.ErrorMessages;
+import pl.kedziora.emilek.roomies.app.tasks.GetUserTokenTask;
+import pl.kedziora.emilek.roomies.app.utils.AlertDialogUtils;
+import pl.kedziora.emilek.roomies.app.utils.ErrorMessages;
 
 public class LoginActivity extends Activity implements Serializable {
 
@@ -31,7 +29,7 @@ public class LoginActivity extends Activity implements Serializable {
 
     private static final int GET_ACCOUNT_CODE = 1001;
 
-    public static final int REQUEST_AUTHORIZATION = 1002;
+    public static final int REQUEST_AUTHORIZATION_CODE = 1002;
 
     private String accountName;
 
@@ -87,19 +85,30 @@ public class LoginActivity extends Activity implements Serializable {
     @Override
     protected void onActivityResult(final int requestCode, final int resultCode,
                                     final Intent data) {
-        if (requestCode == GET_ACCOUNT_CODE && resultCode == RESULT_OK) {
-            accountName = data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
-            Log.i("Accounts", "Chosen account name: " + accountName);
+        if (requestCode == GET_ACCOUNT_CODE) {
+            if(resultCode == RESULT_OK) {
+                accountName = data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
+                Log.i("Accounts", "Chosen account name: " + accountName);
 
-            new GetUserTokenTask(this, SCOPE, accountName, "Logging").execute();
+                new GetUserTokenTask(this, SCOPE, accountName, "Logging").execute();
+            }
+            else {
+                AlertDialogUtils.showDefaultAlertDialog(this,
+                        "Something's wrong",
+                        "Can't login to an account. Please pick another account or try again later.",
+                        "OK");
+                Log.e("Accounts", "Error during getting account name, returned result code: " + resultCode);
+            }
         }
-        else {
-            AlertDialogUtils.showDefaultAlertDialog(this,
-                    "Something's wrong",
-                    "Can't login to an account. Please pick another account or try again later.",
-                    "OK");
-            Log.e("Accounts", "Error during getting account name, returned result code: " + resultCode);
+        else if(requestCode == REQUEST_AUTHORIZATION_CODE) {
+            if(resultCode == RESULT_OK) {
+                Log.i("smth", "COs");
+            }
+            else {
+
+            }
         }
+
     }
 
     @Override
