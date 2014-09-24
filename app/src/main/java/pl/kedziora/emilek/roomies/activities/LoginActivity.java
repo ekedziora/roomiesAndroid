@@ -1,72 +1,87 @@
 package pl.kedziora.emilek.roomies.activities;
 
-import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.app.Activity;
+import android.app.Dialog;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
-import android.widget.Toast;
 
-import com.google.android.gms.auth.GoogleAuthUtil;
 import com.google.android.gms.common.AccountPicker;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
-import com.google.common.base.Joiner;
-import com.google.common.collect.Lists;
 
-import java.util.List;
+import java.io.Serializable;
 
 import pl.kedziora.emilek.roomies.R;
+import pl.kedziora.emilek.roomies.tasks.GetUserTokenTask;
+import pl.kedziora.emilek.roomies.utils.AlertDialogUtils;
+import pl.kedziora.emilek.roomies.utils.ErrorMessages;
 
-public class LoginActivity extends Activity {
+public class LoginActivity extends Activity implements Serializable {
+
+    private static final long serialVersionUID = -3776548122516955405L;
 
     private static final int GET_ACCOUNT_CODE = 1001;
 
-    String accountName;
+    public static final int REQUEST_AUTHORIZATION = 1002;
 
-    /**
-     * Called when the activity is first created.
-     */
+    private String accountName;
+
+    private static final String SCOPE = "oauth2:https://www.googleapis.com/auth/userinfo.profile";
+
+    private View.OnClickListener loginOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if(isGooglePlayServicesAvailable() && isNetworkConnectionActive()) {
+                Intent intent = AccountPicker.newChooseAccountIntent(null, null, new String[]{"com.google"},
+                        true, null, null, null, null);
+                startActivityForResult(intent, GET_ACCOUNT_CODE);
+            }
+        }
+
+        private boolean isGooglePlayServicesAvailable() {
+            int status = GooglePlayServicesUtil.isGooglePlayServicesAvailable(getApplicationContext());
+            if (status != ConnectionResult.SUCCESS)
+            {
+                AlertDialogUtils.showDefaultAlertDialog(LoginActivity.this,
+                        "Something's wrong",
+                        "Your device has no access to Google Play Services. Please update your software and try again later.",
+                        "OK");
+                Log.e("Accounts", "Google Play Services unavailable, returned status: " + status);
+                return false;
+            }
+            return true;
+        }
+
+        private boolean isNetworkConnectionActive() {
+            ConnectivityManager connMgr = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+            if (networkInfo == null || !networkInfo.isConnected()) {
+                AlertDialogUtils.showDefaultAlertDialog(LoginActivity.this,
+                        "Something's wrong",
+                        ErrorMessages.NO_NETWORK_CONNECTION_MESSAGE,
+                        "OK");
+                Log.i("Network", "No network connection found");
+                return false;
+            }
+            return true;
+        }
+    };
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
 
-        findViewById(R.id.login_loginButton).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.i("Dupa", Joiner.on(", ").join(getAccountNames()));
-
-                int status = GooglePlayServicesUtil.isGooglePlayServicesAvailable(getApplicationContext());
-                if (status != ConnectionResult.SUCCESS)
-                {
-                    Log.e("Dupa", String.valueOf(status));
-                    Toast.makeText(getApplicationContext(), "DUPA", Toast.LENGTH_LONG).show();
-                    finish();
-                    return;
-                }
-
-                Intent intent = AccountPicker.newChooseAccountIntent(null, null, new String[]{"com.google"},
-                        false, null, null, null, null);
-                startActivityForResult(intent, GET_ACCOUNT_CODE);
-                Log.i("Accounts", accountName);
-            }
-        });
-    }
-
-    private List<String> getAccountNames() {
-        AccountManager accountManager = AccountManager.get(this);
-        Account[] accounts = accountManager.getAccountsByType(
-                GoogleAuthUtil.GOOGLE_ACCOUNT_TYPE);
-        List<String> names = Lists.newArrayListWithExpectedSize(accounts.length);
-        for (Account account : accounts) {
-            names.add(account.name);
-        }
-        return names;
+        findViewById(R.id.login_loginButton).setOnClickListener(loginOnClickListener);
     }
 
     @Override
@@ -74,6 +89,16 @@ public class LoginActivity extends Activity {
                                     final Intent data) {
         if (requestCode == GET_ACCOUNT_CODE && resultCode == RESULT_OK) {
             accountName = data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
+            Log.i("Accounts", "Chosen account name: " + accountName);
+
+            new GetUserTokenTask(this, SCOPE, accountName, "Logging").execute();
+        }
+        else {
+            AlertDialogUtils.showDefaultAlertDialog(this,
+                    "Something's wrong",
+                    "Can't login to an account. Please pick another account or try again later.",
+                    "OK");
+            Log.e("Accounts", "Error during getting account name, returned result code: " + resultCode);
         }
     }
 
