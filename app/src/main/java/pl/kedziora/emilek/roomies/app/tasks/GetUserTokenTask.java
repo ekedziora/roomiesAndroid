@@ -52,16 +52,16 @@ public class GetUserTokenTask extends AsyncTask<Void, Void, String> {
         }
 
         if(result != null) {
-            String message;
             if(result == NETWORK_ERROR_CODE) {
-                message = ErrorMessages.NO_NETWORK_CONNECTION_MESSAGE;
+                AlertDialogUtils.showDefaultAlertDialog(activity, "Something's wrong", ErrorMessages.NO_NETWORK_CONNECTION_MESSAGE, "OK");
+            }
+            else if(result == AUTH_ERROR_CODE) {
+                AlertDialogUtils.showDefaultAlertDialog(activity, "Something's wrong", ErrorMessages.AUTH_ERROR_MESSAGE, "OK");
             }
             else {
-                message = ErrorMessages.AUTH_ERROR_MESSAGE;
+                Log.i("MOJ KOCHANY TOKEN", result);
             }
-            AlertDialogUtils.showDefaultAlertDialog(activity, "Something's wrong", message, "OK");
         }
-        return;
     }
 
     @Override
@@ -75,7 +75,7 @@ public class GetUserTokenTask extends AsyncTask<Void, Void, String> {
             return null;
         } catch (UserRecoverableAuthException e) {
             activity.startActivityForResult(e.getIntent(), LoginActivity.REQUEST_AUTHORIZATION_CODE);
-            Log.e("Get token", "Exception while getting token", e);
+            Log.i("Get token", "Authorization required");
             return null;
         } catch (IOException e) {
             Log.e("Get token", "Exception while getting token", e);

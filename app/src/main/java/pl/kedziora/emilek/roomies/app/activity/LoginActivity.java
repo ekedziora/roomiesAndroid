@@ -21,6 +21,7 @@ import java.io.Serializable;
 import pl.kedziora.emilek.roomies.R;
 import pl.kedziora.emilek.roomies.app.tasks.GetUserTokenTask;
 import pl.kedziora.emilek.roomies.app.utils.AlertDialogUtils;
+import pl.kedziora.emilek.roomies.app.utils.CoreUtils;
 import pl.kedziora.emilek.roomies.app.utils.ErrorMessages;
 
 public class LoginActivity extends Activity implements Serializable {
@@ -33,7 +34,8 @@ public class LoginActivity extends Activity implements Serializable {
 
     private String accountName;
 
-    private static final String SCOPE = "oauth2:https://www.googleapis.com/auth/userinfo.profile";
+    private static final String SCOPE =
+            "audience:server:client_id:" + CoreUtils.WEB_APP_CLIENT_ID;
 
     private View.OnClickListener loginOnClickListener = new View.OnClickListener() {
         @Override
@@ -92,23 +94,12 @@ public class LoginActivity extends Activity implements Serializable {
 
                 new GetUserTokenTask(this, SCOPE, accountName, "Logging").execute();
             }
-            else {
-                AlertDialogUtils.showDefaultAlertDialog(this,
-                        "Something's wrong",
-                        "Can't login to an account. Please pick another account or try again later.",
-                        "OK");
-                Log.e("Accounts", "Error during getting account name, returned result code: " + resultCode);
-            }
         }
         else if(requestCode == REQUEST_AUTHORIZATION_CODE) {
             if(resultCode == RESULT_OK) {
-                Log.i("smth", "COs");
-            }
-            else {
-
+                new GetUserTokenTask(this, SCOPE, accountName, "Logging").execute();
             }
         }
-
     }
 
     @Override
