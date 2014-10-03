@@ -19,23 +19,23 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 import java.io.Serializable;
 
 import pl.kedziora.emilek.roomies.R;
-import pl.kedziora.emilek.roomies.app.tasks.GetUserTokenTask;
+import pl.kedziora.emilek.roomies.app.tasks.GetUserAuthCodeTask;
 import pl.kedziora.emilek.roomies.app.utils.AlertDialogUtils;
 import pl.kedziora.emilek.roomies.app.utils.CoreUtils;
 import pl.kedziora.emilek.roomies.app.utils.ErrorMessages;
 
-public class LoginActivity extends Activity implements Serializable {
-
-    private static final long serialVersionUID = -3776548122516955405L;
+public class LoginActivity extends Activity {
 
     private static final int GET_ACCOUNT_CODE = 1001;
 
     public static final int REQUEST_AUTHORIZATION_CODE = 1002;
 
+    private static final String SCOPE =
+            "oauth2:server:client_id:" + CoreUtils.WEB_APP_CLIENT_ID +
+                    ":api_scope:https://www.googleapis.com/auth/userinfo.profile";
+
     private String accountName;
 
-    private static final String SCOPE =
-            "audience:server:client_id:" + CoreUtils.WEB_APP_CLIENT_ID;
 
     private View.OnClickListener loginOnClickListener = new View.OnClickListener() {
         @Override
@@ -92,12 +92,12 @@ public class LoginActivity extends Activity implements Serializable {
                 accountName = data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
                 Log.i("Accounts", "Chosen account name: " + accountName);
 
-                new GetUserTokenTask(this, SCOPE, accountName, "Logging").execute();
+                new GetUserAuthCodeTask(this, SCOPE, accountName, "Logging").execute();
             }
         }
         else if(requestCode == REQUEST_AUTHORIZATION_CODE) {
             if(resultCode == RESULT_OK) {
-                new GetUserTokenTask(this, SCOPE, accountName, "Logging").execute();
+                new GetUserAuthCodeTask(this, SCOPE, accountName, "Logging").execute();
             }
         }
     }

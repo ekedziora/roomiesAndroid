@@ -15,22 +15,27 @@ import java.io.IOException;
 
 import pl.kedziora.emilek.roomies.app.activity.LoginActivity;
 import pl.kedziora.emilek.roomies.app.utils.AlertDialogUtils;
+import pl.kedziora.emilek.roomies.app.utils.ContentType;
 import pl.kedziora.emilek.roomies.app.utils.ErrorMessages;
+import pl.kedziora.emilek.roomies.app.utils.HttpRequestTask;
+import pl.kedziora.emilek.roomies.app.utils.RequestMethod;
 
 /**
  * Created by kedziora on 2014-09-24.
  */
-public class GetUserTokenTask extends AsyncTask<Void, Void, String> {
+public class GetUserAuthCodeTask extends AsyncTask<Void, Void, String> {
 
-    private static final String NETWORK_ERROR_CODE = "NETWORK ERROR";
-    private static final String AUTH_ERROR_CODE = "AUTH ERROR";
+    private static final String NETWORK_ERROR_CODE = "NETWORK_ERROR";
+    private static final String AUTH_ERROR_CODE = "AUTH_ERROR";
+    public static final String AUTH_CODE_TAG = "AUTH CODE";
+    public static final String AUTH_CODE_EXCEPTION_MESSAGE = "Exception while getting auth code";
 
     private Activity activity;
     private String scope;
     private String mail;
     private ProgressDialog dialog;
 
-    public GetUserTokenTask(Activity activity, String scope, String mail, String progressDialogTitle) {
+    public GetUserAuthCodeTask(Activity activity, String scope, String mail, String progressDialogTitle) {
         this.activity = activity;
         this.scope = scope;
         this.mail = mail;
@@ -43,6 +48,28 @@ public class GetUserTokenTask extends AsyncTask<Void, Void, String> {
         dialog.setMessage("Please wait...");
         dialog.setCancelable(false);
         dialog.show();
+    }
+
+    @Override
+    protected String doInBackground(Void... params) {
+        try {
+            return GoogleAuthUtil.getToken(activity, mail, scope);
+        } catch (GooglePlayServicesAvailabilityException e) {
+            GooglePlayServicesUtil.getErrorDialog(e.getConnectionStatusCode(), activity,
+                    LoginActivity.REQUEST_AUTHORIZATION_CODE).show();
+            Log.e(AUTH_CODE_TAG, AUTH_CODE_EXCEPTION_MESSAGE, e);
+            return null;
+        } catch (UserRecoverableAuthException e) {
+            activity.startActivityForResult(e.getIntent(), LoginActivity.REQUEST_AUTHORIZATION_CODE);
+            Log.i(AUTH_CODE_TAG, "Authorization required");
+            return null;
+        } catch (IOException e) {
+            Log.e(AUTH_CODE_TAG, AUTH_CODE_EXCEPTION_MESSAGE, e);
+            return NETWORK_ERROR_CODE;
+        } catch (GoogleAuthException e) {
+            Log.e(AUTH_CODE_TAG, AUTH_CODE_EXCEPTION_MESSAGE, e);
+            return AUTH_ERROR_CODE;
+        }
     }
 
     @Override
@@ -59,30 +86,9 @@ public class GetUserTokenTask extends AsyncTask<Void, Void, String> {
                 AlertDialogUtils.showDefaultAlertDialog(activity, "Something's wrong", ErrorMessages.AUTH_ERROR_MESSAGE, "OK");
             }
             else {
-                Log.i("MOJ KOCHANY TOKEN", result);
+                Log.i(AUTH_CODE_TAG, result);
+                new HttpRequestTask("localhost:8080/roomies/user/authcode", RequestMethod.POST, ContentType.TEXT_PLAIN, result);
             }
-        }
-    }
-
-    @Override
-    protected String doInBackground(Void... params) {
-        try {
-            return GoogleAuthUtil.getToken(activity, mail, scope);
-        } catch (GooglePlayServicesAvailabilityException e) {
-            GooglePlayServicesUtil.getErrorDialog(e.getConnectionStatusCode(), activity,
-                    LoginActivity.REQUEST_AUTHORIZATION_CODE).show();
-            Log.e("Get token", "Exception while getting token", e);
-            return null;
-        } catch (UserRecoverableAuthException e) {
-            activity.startActivityForResult(e.getIntent(), LoginActivity.REQUEST_AUTHORIZATION_CODE);
-            Log.i("Get token", "Authorization required");
-            return null;
-        } catch (IOException e) {
-            Log.e("Get token", "Exception while getting token", e);
-            return NETWORK_ERROR_CODE;
-        } catch (GoogleAuthException e) {
-            Log.e("Get token", "Exception while getting token", e);
-            return AUTH_ERROR_CODE;
         }
     }
 

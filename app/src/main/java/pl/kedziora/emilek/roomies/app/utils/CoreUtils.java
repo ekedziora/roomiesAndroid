@@ -12,11 +12,11 @@ import java.util.Set;
  */
 public class CoreUtils {
 
-    public static final String WEB_APP_CLIENT_ID = "1020462781456-ir99omtb5cgagcl8coa39r8idakl9k2i.apps.googleusercontent.com";
+    public static final String WEB_APP_CLIENT_ID = "774426409445-quaaphdd1ctj52etjn93e91c951fvafn.apps.googleusercontent.com";
 
-    public static final String ANDROID_APP_CLIENT_ID = "1020462781456-lung6ard7onhel8f9iphb8st5l4kncbk.apps.googleusercontent.com";
+    public static final String ANDROID_APP_CLIENT_ID = "774426409445-qc75g2gitnt57ojb6jul7mmrse0jnq7l.apps.googleusercontent.com";
 
-    private static final String CORE_UTILS_LOG_TAG = "CORE_UTILS";
+    private static final String CORE_UTILS_LOG_TAG = "CORE UTILS";
 
     public static void dumpIntent(Intent i) {
         Bundle bundle = i.getExtras();
