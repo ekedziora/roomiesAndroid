@@ -15,10 +15,7 @@ import java.io.IOException;
 
 import pl.kedziora.emilek.roomies.app.activity.LoginActivity;
 import pl.kedziora.emilek.roomies.app.utils.AlertDialogUtils;
-import pl.kedziora.emilek.roomies.app.utils.ContentType;
 import pl.kedziora.emilek.roomies.app.utils.ErrorMessages;
-import pl.kedziora.emilek.roomies.app.utils.HttpRequestTask;
-import pl.kedziora.emilek.roomies.app.utils.RequestMethod;
 
 /**
  * Created by kedziora on 2014-09-24.
@@ -87,7 +84,7 @@ public class GetUserAuthCodeTask extends AsyncTask<Void, Void, String> {
             }
             else {
                 Log.i(AUTH_CODE_TAG, result);
-                new HttpRequestTask("localhost:8080/roomies/user/authcode", RequestMethod.POST, ContentType.TEXT_PLAIN, result);
+                // Mamy auth code, teraz pytanie do serwera
             }
         }
     }

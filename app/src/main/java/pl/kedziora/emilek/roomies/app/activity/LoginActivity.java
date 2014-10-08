@@ -8,20 +8,15 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 
 import com.google.android.gms.common.AccountPicker;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 
-import java.io.Serializable;
-
 import pl.kedziora.emilek.roomies.R;
 import pl.kedziora.emilek.roomies.app.tasks.GetUserAuthCodeTask;
 import pl.kedziora.emilek.roomies.app.utils.AlertDialogUtils;
-import pl.kedziora.emilek.roomies.app.utils.CoreUtils;
 import pl.kedziora.emilek.roomies.app.utils.ErrorMessages;
 
 public class LoginActivity extends Activity {
@@ -30,11 +25,11 @@ public class LoginActivity extends Activity {
 
     public static final int REQUEST_AUTHORIZATION_CODE = 1002;
 
-    private static final String SCOPE =
-            "oauth2:server:client_id:" + CoreUtils.WEB_APP_CLIENT_ID +
-                    ":api_scope:https://www.googleapis.com/auth/userinfo.profile";
+    private static final String SCOPE = "oauth2:https://www.googleapis.com/auth/plus.login";
+            //"audience:server:client_id:" + CoreUtils.WEB_APP_CLIENT_ID;
+//                    ":api_scope:https://www.googleapis.com/auth/userinfo.profile";
 
-    private String accountName;
+    public static String accountName; //TODO gdzies idziej
 
 
     private View.OnClickListener loginOnClickListener = new View.OnClickListener() {
@@ -82,6 +77,14 @@ public class LoginActivity extends Activity {
         setContentView(R.layout.login);
 
         findViewById(R.id.login_loginButton).setOnClickListener(loginOnClickListener);
+        findViewById(R.id.user).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                new HttpGetRequestTask("http://10.0.2.2:8080/test/user").execute();
+                Intent intent = new Intent(LoginActivity.this, DashboardActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -102,10 +105,4 @@ public class LoginActivity extends Activity {
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.login, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
 }
