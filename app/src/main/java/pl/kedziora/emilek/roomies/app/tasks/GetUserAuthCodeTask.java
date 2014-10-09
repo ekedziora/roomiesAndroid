@@ -13,19 +13,17 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 
 import java.io.IOException;
 
-import pl.kedziora.emilek.roomies.app.activity.LoginActivity;
 import pl.kedziora.emilek.roomies.app.utils.AlertDialogUtils;
 import pl.kedziora.emilek.roomies.app.utils.ErrorMessages;
 
-/**
- * Created by kedziora on 2014-09-24.
- */
 public class GetUserAuthCodeTask extends AsyncTask<Void, Void, String> {
 
     private static final String NETWORK_ERROR_CODE = "NETWORK_ERROR";
     private static final String AUTH_ERROR_CODE = "AUTH_ERROR";
     public static final String AUTH_CODE_TAG = "AUTH CODE";
     public static final String AUTH_CODE_EXCEPTION_MESSAGE = "Exception while getting auth code";
+
+    private static final int REQUEST_AUTHORIZATION_CODE = 1002;
 
     private Activity activity;
     private String scope;
@@ -53,11 +51,11 @@ public class GetUserAuthCodeTask extends AsyncTask<Void, Void, String> {
             return GoogleAuthUtil.getToken(activity, mail, scope);
         } catch (GooglePlayServicesAvailabilityException e) {
             GooglePlayServicesUtil.getErrorDialog(e.getConnectionStatusCode(), activity,
-                    LoginActivity.REQUEST_AUTHORIZATION_CODE).show();
+                    REQUEST_AUTHORIZATION_CODE).show();
             Log.e(AUTH_CODE_TAG, AUTH_CODE_EXCEPTION_MESSAGE, e);
             return null;
         } catch (UserRecoverableAuthException e) {
-            activity.startActivityForResult(e.getIntent(), LoginActivity.REQUEST_AUTHORIZATION_CODE);
+            activity.startActivityForResult(e.getIntent(), REQUEST_AUTHORIZATION_CODE);
             Log.i(AUTH_CODE_TAG, "Authorization required");
             return null;
         } catch (IOException e) {

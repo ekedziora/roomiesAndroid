@@ -15,7 +15,6 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 
 import pl.kedziora.emilek.roomies.R;
-import pl.kedziora.emilek.roomies.app.tasks.GetUserAuthCodeTask;
 import pl.kedziora.emilek.roomies.app.utils.AlertDialogUtils;
 import pl.kedziora.emilek.roomies.app.utils.ErrorMessages;
 
@@ -23,14 +22,13 @@ public class LoginActivity extends Activity {
 
     private static final int GET_ACCOUNT_CODE = 1001;
 
-    public static final int REQUEST_AUTHORIZATION_CODE = 1002;
-
     private static final String SCOPE = "oauth2:https://www.googleapis.com/auth/plus.login";
             //"audience:server:client_id:" + CoreUtils.WEB_APP_CLIENT_ID;
 //                    ":api_scope:https://www.googleapis.com/auth/userinfo.profile";
 
-    public static String accountName; //TODO gdzies idziej
+    private static final String LOGIN_ACTIVITY_TAG = "LOGIN ACTIVITY";
 
+    public static String accountName; //TODO gdzies idziej
 
     private View.OnClickListener loginOnClickListener = new View.OnClickListener() {
         @Override
@@ -43,14 +41,13 @@ public class LoginActivity extends Activity {
         }
 
         private boolean isGooglePlayServicesAvailable() {
-            int status = GooglePlayServicesUtil.isGooglePlayServicesAvailable(getApplicationContext());
+            int status = GooglePlayServicesUtil.isGooglePlayServicesAvailable(LoginActivity.this);
             if (status != ConnectionResult.SUCCESS)
             {
-                AlertDialogUtils.showDefaultAlertDialog(LoginActivity.this,
-                        "Something's wrong",
-                        "Your device has no access to Google Play Services. Please update your software and try again later.",
-                        "OK");
-                Log.e("Accounts", "Google Play Services unavailable, returned status: " + status);
+                AlertDialogUtils.showDefaultAlertDialog(
+                        LoginActivity.this,
+                        "Your device has no access to Google Play Services. Please update your software and try again later.");
+                Log.e(LOGIN_ACTIVITY_TAG, "Google Play Services unavailable, returned status: " + status);
                 return false;
             }
             return true;
@@ -60,11 +57,10 @@ public class LoginActivity extends Activity {
             ConnectivityManager connMgr = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
             if (networkInfo == null || !networkInfo.isConnected()) {
-                AlertDialogUtils.showDefaultAlertDialog(LoginActivity.this,
-                        "Something's wrong",
-                        ErrorMessages.NO_NETWORK_CONNECTION_MESSAGE,
-                        "OK");
-                Log.i("Network", "No network connection found");
+                AlertDialogUtils.showDefaultAlertDialog(
+                        LoginActivity.this,
+                        ErrorMessages.NO_NETWORK_CONNECTION_MESSAGE);
+                Log.i(LOGIN_ACTIVITY_TAG, "No network connection found");
                 return false;
             }
             return true;
@@ -77,14 +73,6 @@ public class LoginActivity extends Activity {
         setContentView(R.layout.login);
 
         findViewById(R.id.login_loginButton).setOnClickListener(loginOnClickListener);
-        findViewById(R.id.user).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                new HttpGetRequestTask("http://10.0.2.2:8080/test/user").execute();
-                Intent intent = new Intent(LoginActivity.this, DashboardActivity.class);
-                startActivity(intent);
-            }
-        });
     }
 
     @Override
@@ -94,13 +82,7 @@ public class LoginActivity extends Activity {
             if(resultCode == RESULT_OK) {
                 accountName = data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
                 Log.i("Accounts", "Chosen account name: " + accountName);
-
-                new GetUserAuthCodeTask(this, SCOPE, accountName, "Logging").execute();
-            }
-        }
-        else if(requestCode == REQUEST_AUTHORIZATION_CODE) {
-            if(resultCode == RESULT_OK) {
-                new GetUserAuthCodeTask(this, SCOPE, accountName, "Logging").execute();
+                startActivity(new Intent(this, DashboardActivity.class));
             }
         }
     }

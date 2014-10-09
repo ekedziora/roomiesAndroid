@@ -19,8 +19,7 @@
     <string name="ageColon">Age:</string>
     <string name="actionAccount">My account</string>
     <string name="title_activity_dashboard">Dashboard</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
-    <string name="title_activity_account">My account</string>
+    <string name="drawerOpened">Slide menu opened</string>
+    <string name="drawerClosed">Slide menu closed</string>
 
 </resources>

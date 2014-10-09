@@ -32,7 +32,7 @@ public class AlertDialogUtils {
     /**
      * Shows alert dialog with specified parameters and neutral button with <i>onClickListener</i> behaviour on click
      *
-     * @param context context(activity)
+     * @param context
      * @param title dialog title
      * @param message
      * @param buttonText
@@ -50,7 +50,7 @@ public class AlertDialogUtils {
     /**
      * Shows alert dialog with specified parameters and neutral button with dismiss behaviour on click
      *
-     * @param context context(activity)
+     * @param context context
      * @param title dialog title
      * @param message
      * @param buttonText
@@ -61,6 +61,20 @@ public class AlertDialogUtils {
                 .setTitle(title)
                 .setMessage(message)
                 .setNeutralButton(buttonText, DIALOG_DISMISS)
+                .show();
+    }
+
+    /**
+     * Shows alert dialog with default title and button behaviour and custom message
+     *
+     * @param context
+     * @param message
+     */
+    public static void showDefaultAlertDialog(Context context, String message) {
+        new AlertDialog.Builder(context)
+                .setTitle(ErrorMessages.DEFAULT_ERROR_TITLE)
+                .setMessage(message)
+                .setNeutralButton("OK", DIALOG_DISMISS)
                 .show();
     }
 

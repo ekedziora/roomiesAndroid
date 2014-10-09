@@ -19,15 +19,5 @@
         android:text="@string/login"
         android:layout_below="@+id/login_title"
         android:layout_centerHorizontal="true" />
-
-    <Button
-        android:layout_width="120dip"
-        android:layout_height="wrap_content"
-        android:id="@+id/user"
-        android:layout_marginTop="66dp"
-        android:text="User"
-        android:layout_below="@+id/login_loginButton"
-        android:layout_alignLeft="@+id/login_loginButton"
-        android:layout_alignStart="@+id/login_loginButton" />
 </RelativeLayout>
 

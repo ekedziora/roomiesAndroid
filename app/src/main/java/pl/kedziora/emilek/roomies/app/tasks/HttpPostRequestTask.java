@@ -13,9 +13,6 @@ import java.net.URL;
 import pl.kedziora.emilek.roomies.app.utils.ContentType;
 import pl.kedziora.emilek.roomies.app.utils.RequestMethod;
 
-/**
- * Created by kedziora on 2014-09-26.
- */
 public class HttpPostRequestTask extends AsyncTask<Void, Void, String> {
 
     private static final String HTTP_REQUEST_TAG = "HTTP POST REQUEST TASK";
