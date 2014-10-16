@@ -22,9 +22,7 @@ public class LoginActivity extends Activity {
 
     private static final int GET_ACCOUNT_CODE = 1001;
 
-    private static final String SCOPE = "oauth2:https://www.googleapis.com/auth/plus.login";
-            //"audience:server:client_id:" + CoreUtils.WEB_APP_CLIENT_ID;
-//                    ":api_scope:https://www.googleapis.com/auth/userinfo.profile";
+    //TODO gdzie autoryzacje obsłużyć (Dashboard?)
 
     private static final String LOGIN_ACTIVITY_TAG = "LOGIN ACTIVITY";
 

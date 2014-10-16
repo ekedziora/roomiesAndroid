@@ -1,7 +1,6 @@
 package pl.kedziora.emilek.roomies.app.tasks;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -10,9 +9,18 @@ import com.google.android.gms.auth.GoogleAuthUtil;
 import com.google.android.gms.auth.GooglePlayServicesAvailabilityException;
 import com.google.android.gms.auth.UserRecoverableAuthException;
 import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.common.net.MediaType;
+import com.google.gson.Gson;
+
+import org.apache.http.entity.StringEntity;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
+import pl.kedziora.emilek.json.objects.AuthCodeRequestParams;
+import pl.kedziora.emilek.roomies.app.activity.LoginActivity;
+import pl.kedziora.emilek.roomies.app.client.RoomiesRestClient;
+import pl.kedziora.emilek.roomies.app.handler.RequestResponseHandler;
 import pl.kedziora.emilek.roomies.app.utils.AlertDialogUtils;
 import pl.kedziora.emilek.roomies.app.utils.ErrorMessages;
 
@@ -28,21 +36,16 @@ public class GetUserAuthCodeTask extends AsyncTask<Void, Void, String> {
     private Activity activity;
     private String scope;
     private String mail;
-    private ProgressDialog dialog;
 
-    public GetUserAuthCodeTask(Activity activity, String scope, String mail, String progressDialogTitle) {
+    public GetUserAuthCodeTask(Activity activity, String scope, String mail) {
         this.activity = activity;
         this.scope = scope;
         this.mail = mail;
-        this.dialog = new ProgressDialog(activity);
-        dialog.setTitle(progressDialogTitle);
     }
 
     @Override
     protected void onPreExecute() {
-        dialog.setMessage("Please wait...");
-        dialog.setCancelable(false);
-        dialog.show();
+        activity.setProgressBarIndeterminateVisibility(true);
     }
 
     @Override
@@ -69,20 +72,27 @@ public class GetUserAuthCodeTask extends AsyncTask<Void, Void, String> {
 
     @Override
     protected void onPostExecute(String result) {
-        if(dialog.isShowing()) {
-            dialog.dismiss();
-        }
+        activity.setProgressBarIndeterminateVisibility(false);
 
         if(result != null) {
             if(result == NETWORK_ERROR_CODE) {
-                AlertDialogUtils.showDefaultAlertDialog(activity, "Something's wrong", ErrorMessages.NO_NETWORK_CONNECTION_MESSAGE, "OK");
+                AlertDialogUtils.showDefaultAlertDialog(activity, ErrorMessages.DEFAULT_ERROR_TITLE,
+                        ErrorMessages.NO_NETWORK_CONNECTION_MESSAGE, "OK");
             }
             else if(result == AUTH_ERROR_CODE) {
-                AlertDialogUtils.showDefaultAlertDialog(activity, "Something's wrong", ErrorMessages.AUTH_ERROR_MESSAGE, "OK");
+                AlertDialogUtils.showDefaultAlertDialog(activity, ErrorMessages.DEFAULT_ERROR_TITLE,
+                        ErrorMessages.AUTH_ERROR_MESSAGE, "OK");
             }
             else {
                 Log.i(AUTH_CODE_TAG, result);
-                // Mamy auth code, teraz pytanie do serwera
+                AuthCodeRequestParams params = new AuthCodeRequestParams(LoginActivity.accountName, result);
+                String paramsString = new Gson().toJson(params, AuthCodeRequestParams.class);
+                try {
+                    RoomiesRestClient.post(activity, "authcode/get", new StringEntity(paramsString),
+                            MediaType.JSON_UTF_8.toString(), new RequestResponseHandler(activity));
+                } catch (UnsupportedEncodingException e) {
+                    Log.e(AUTH_CODE_TAG, "Exception during creating auth code string entity JSON", e);
+                }
             }
         }
     }

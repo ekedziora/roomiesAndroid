@@ -2,7 +2,6 @@ package pl.kedziora.emilek.roomies.app.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +11,7 @@ import android.widget.TextView;
 
 import pl.kedziora.emilek.roomies.R;
 import pl.kedziora.emilek.roomies.app.activity.DashboardActivity;
+import pl.kedziora.emilek.roomies.app.activity.MyAccountActivity;
 import pl.kedziora.emilek.roomies.app.utils.MenuUtils;
 
 public class MenuItemsAdapter extends BaseAdapter {
@@ -53,13 +53,12 @@ public class MenuItemsAdapter extends BaseAdapter {
         menuItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i("MENU", "You Clicked " + MenuUtils.items.get(position).getText());
                 MenuUtils.MenuItem item = (MenuUtils.MenuItem) getItem(position);
                 if(MenuUtils.MenuItem.DASHBOARD.equals(item)) {
                     context.startActivity(new Intent(context, DashboardActivity.class));
                 }
                 else if(MenuUtils.MenuItem.MY_ACCOUNT.equals(item)) {
-                    Log.i("GO", "go to my account");
+                    context.startActivity(new Intent(context, MyAccountActivity.class));
                 }
             }
         });

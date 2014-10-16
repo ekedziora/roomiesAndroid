@@ -21,5 +21,8 @@
     <string name="title_activity_dashboard">Dashboard</string>
     <string name="drawerOpened">Slide menu opened</string>
     <string name="drawerClosed">Slide menu closed</string>
+    <string name="title_activity_my_account">My account</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
 
 </resources>

@@ -16,19 +16,29 @@
     <application
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name" >
-        <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version"/>
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
         <activity
             android:name=".app.activity.LoginActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".app.activity.DashboardActivity"
             android:label="@string/title_activity_dashboard" >
+        </activity>
+        <activity
+            android:name=".app.activity.MyAccountActivity"
+            android:label="@string/title_activity_my_account"
+            android:parentActivityName=".app.activity.DashboardActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="pl.kedziora.emilek.roomies.app.activity.DashboardActivity" />
         </activity>
     </application>
 

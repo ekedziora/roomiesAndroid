@@ -9,9 +9,8 @@ import java.util.Set;
 
 public class CoreUtils {
 
-    public static final String WEB_APP_CLIENT_ID = "774426409445-quaaphdd1ctj52etjn93e91c951fvafn.apps.googleusercontent.com";
-
-    public static final String ANDROID_APP_CLIENT_ID = "774426409445-qc75g2gitnt57ojb6jul7mmrse0jnq7l.apps.googleusercontent.com";
+    public static final String SCOPE = "oauth2:server:client_id:" + pl.kedziora.emilek.json.utils.CoreUtils.WEB_APP_CLIENT_ID
+            + ":api_scope:https://www.googleapis.com/auth/userinfo.profile";
 
     private static final String CORE_UTILS_TAG = "CORE UTILS";
 
