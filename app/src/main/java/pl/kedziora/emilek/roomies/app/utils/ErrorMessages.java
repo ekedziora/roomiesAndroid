@@ -1,8 +1,5 @@
 package pl.kedziora.emilek.roomies.app.utils;
 
-/**
- * Created by kedziora on 2014-09-24.
- */
 public class ErrorMessages {
 
     public static final String DEFAULT_ERROR_TITLE = "Something's wrong";
@@ -13,5 +10,7 @@ public class ErrorMessages {
     public static final String AUTH_ERROR_MESSAGE =
             "Can't authorize your identity. Please try again later.";
 
+    public static final String CONNECTION_TO_SERVER_MESSAGE =
+            "Sorry, there was a problem connecting to server. Please try again later";
 
 }

@@ -1,57 +1,54 @@
 package pl.kedziora.emilek.roomies.app.handler;
 
-import android.app.Activity;
+import android.util.Log;
 
-import com.loopj.android.http.JsonHttpResponseHandler;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.loopj.android.http.BaseJsonHttpResponseHandler;
 
 import org.apache.http.Header;
 import org.apache.http.HttpStatus;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
+import pl.kedziora.emilek.roomies.app.activity.BaseActivity;
 import pl.kedziora.emilek.roomies.app.activity.LoginActivity;
 import pl.kedziora.emilek.roomies.app.tasks.GetUserAuthCodeTask;
 import pl.kedziora.emilek.roomies.app.utils.CoreUtils;
 
-public class RequestResponseHandler extends JsonHttpResponseHandler {
+public class RequestResponseHandler extends BaseJsonHttpResponseHandler<JsonObject> {
 
-    private Activity activity;
+    private static final String REQUEST_RESPONSE_HANDLER_TAG = "REQUEST RESPONSE HANDLER";
 
-    public RequestResponseHandler(Activity activity) {
+    private static JsonParser jsonParser = new JsonParser();
+
+    private BaseActivity activity;
+
+    public RequestResponseHandler(BaseActivity activity) {
         super();
         this.activity = activity;
     }
 
     @Override
-    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-        super.onSuccess(statusCode, headers, response);
+    public void onSuccess(int statusCode, Header[] headers, String rawJsonResponse, JsonObject response) {
+        activity.setData(response);
+        activity.proceedData();
     }
 
     @Override
-    public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-        super.onSuccess(statusCode, headers, response);
-    }
-
-    @Override
-    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-        super.onFailure(statusCode, headers, throwable, errorResponse);
-    }
-
-    @Override
-    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
-        super.onFailure(statusCode, headers, throwable, errorResponse);
-    }
-
-    @Override
-    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+    public void onFailure(int statusCode, Header[] headers, Throwable throwable, String rawJsonData, JsonObject errorResponse) {
         if(statusCode == HttpStatus.SC_UNAUTHORIZED) {
             new GetUserAuthCodeTask(activity, CoreUtils.SCOPE, LoginActivity.accountName).execute();
+        }
+        else {
+            Log.e(REQUEST_RESPONSE_HANDLER_TAG, "Unexpected response status code  " + statusCode, throwable);
         }
     }
 
     @Override
-    public void onSuccess(int statusCode, Header[] headers, String responseString) {
-        super.onSuccess(statusCode, headers, responseString);
+    protected JsonObject parseResponse(String rawJsonData, boolean isFailure) throws Throwable {
+        if(isFailure) {
+            return null;
+        }
+        return (JsonObject) jsonParser.parse(rawJsonData);
     }
 
     @Override

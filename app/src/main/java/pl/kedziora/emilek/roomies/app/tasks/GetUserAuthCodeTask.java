@@ -20,7 +20,7 @@ import java.io.UnsupportedEncodingException;
 import pl.kedziora.emilek.json.objects.AuthCodeRequestParams;
 import pl.kedziora.emilek.roomies.app.activity.LoginActivity;
 import pl.kedziora.emilek.roomies.app.client.RoomiesRestClient;
-import pl.kedziora.emilek.roomies.app.handler.RequestResponseHandler;
+import pl.kedziora.emilek.roomies.app.handler.AuthCodeRequestResponseHandler;
 import pl.kedziora.emilek.roomies.app.utils.AlertDialogUtils;
 import pl.kedziora.emilek.roomies.app.utils.ErrorMessages;
 
@@ -74,22 +74,19 @@ public class GetUserAuthCodeTask extends AsyncTask<Void, Void, String> {
     protected void onPostExecute(String result) {
         activity.setProgressBarIndeterminateVisibility(false);
 
-        if(result != null) {
-            if(result == NETWORK_ERROR_CODE) {
+        if (result != null) {
+            if (result == NETWORK_ERROR_CODE) {
                 AlertDialogUtils.showDefaultAlertDialog(activity, ErrorMessages.DEFAULT_ERROR_TITLE,
                         ErrorMessages.NO_NETWORK_CONNECTION_MESSAGE, "OK");
-            }
-            else if(result == AUTH_ERROR_CODE) {
+            } else if (result == AUTH_ERROR_CODE) {
                 AlertDialogUtils.showDefaultAlertDialog(activity, ErrorMessages.DEFAULT_ERROR_TITLE,
                         ErrorMessages.AUTH_ERROR_MESSAGE, "OK");
-            }
-            else {
-                Log.i(AUTH_CODE_TAG, result);
+            } else {
                 AuthCodeRequestParams params = new AuthCodeRequestParams(LoginActivity.accountName, result);
                 String paramsString = new Gson().toJson(params, AuthCodeRequestParams.class);
                 try {
                     RoomiesRestClient.post(activity, "authcode/get", new StringEntity(paramsString),
-                            MediaType.JSON_UTF_8.toString(), new RequestResponseHandler(activity));
+                            MediaType.JSON_UTF_8.toString(), new AuthCodeRequestResponseHandler(activity));
                 } catch (UnsupportedEncodingException e) {
                     Log.e(AUTH_CODE_TAG, "Exception during creating auth code string entity JSON", e);
                 }

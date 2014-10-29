@@ -10,7 +10,8 @@ import java.util.Set;
 public class CoreUtils {
 
     public static final String SCOPE = "oauth2:server:client_id:" + pl.kedziora.emilek.json.utils.CoreUtils.WEB_APP_CLIENT_ID
-            + ":api_scope:https://www.googleapis.com/auth/userinfo.profile";
+            + ":api_scope:https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email " +
+            "https://www.googleapis.com/auth/calendar";
 
     private static final String CORE_UTILS_TAG = "CORE UTILS";
 

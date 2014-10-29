@@ -5,10 +5,72 @@
     android:id="@+id/my_account_drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <FrameLayout
+
+    <TableLayout
         android:id="@+id/my_account_content_frame"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:paddingLeft="50dp"
+            android:paddingTop="20dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:id="@+id/my_account_name_label"
+                android:text="@string/nameColon" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_weight="12"
+                android:id="@+id/my_account_name_value" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:paddingLeft="50dp"
+            android:paddingTop="20dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:id="@+id/my_account_mail_label"
+                android:text="@string/mailColon" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_weight="12"
+                android:id="@+id/my_account_mail_value" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:paddingLeft="50dp"
+            android:paddingTop="20dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:id="@+id/my_account_gender_label"
+                android:text="@string/genderColon" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_weight="12"
+                android:id="@+id/my_account_gender_value" />
+        </TableRow>
+
+    </TableLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/my_account_user_image"
+            android:src="@drawable/image_error" />
+
+    </LinearLayout>
+
     <ListView android:id="@+id/my_account_drawer_list_view"
         android:layout_width="200dp"
         android:layout_height="match_parent"
