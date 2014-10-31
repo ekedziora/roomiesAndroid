@@ -17,7 +17,8 @@ public class MenuUtils {
     public static enum MenuItem {
 
         DASHBOARD("Dashboard", R.drawable.ic_dashboard),
-        MY_ACCOUNT("My account", R.drawable.ic_my_account);
+        MY_ACCOUNT("My account", R.drawable.ic_my_account),
+        GROUPS("Groups", R.drawable.ic_groups);
 
         private String text;
 

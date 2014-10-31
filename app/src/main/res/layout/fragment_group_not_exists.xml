@@ -1,0 +1,35 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="pl.kedziora.emilek.roomies.app.fragment.GroupNotExistsFragment">
+
+    <TextView
+        android:id="@+id/groups_not_exists_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/no_groups"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="164dp"
+        android:textSize="20sp" />
+
+    <Button
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:text="@string/group_join"
+        android:id="@+id/groups_not_exists_join_button"
+        android:layout_marginTop="29dp"
+        android:layout_below="@+id/groups_not_exists_create_button"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:text="@string/group_create"
+        android:id="@+id/groups_not_exists_create_button"
+        android:layout_below="@+id/groups_not_exists_label"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="29dp" />
+
+</RelativeLayout>
