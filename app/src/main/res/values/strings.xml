@@ -29,5 +29,7 @@
     <string name="group_join">Join group</string>
     <string name="addressColon">Address:</string>
     <string name="adminColon">Admin:</string>
+    <string name="title_activity_join_group">Join group</string>
+    <string name="action_settings">Settings</string>
 
 </resources>

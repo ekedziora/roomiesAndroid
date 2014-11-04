@@ -4,16 +4,24 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.Window;
 import android.widget.ListView;
 
+import java.io.UnsupportedEncodingException;
+
+import pl.kedziora.emilek.json.objects.RequestParams;
 import pl.kedziora.emilek.roomies.R;
 import pl.kedziora.emilek.roomies.app.adapter.MenuItemsAdapter;
+import pl.kedziora.emilek.roomies.app.client.RoomiesRestClient;
 import pl.kedziora.emilek.roomies.app.fragment.GroupExistsFragment;
 import pl.kedziora.emilek.roomies.app.fragment.GroupNotExistsFragment;
+import pl.kedziora.emilek.roomies.app.utils.ErrorMessages;
 
 public class GroupActivity extends BaseActivity {
+
+    private static final String GROUP_ACTIVITY_TAG = "GROUP ACTIVITY";
 
     private ActionBarDrawerToggle drawerToggle;
 
@@ -22,7 +30,6 @@ public class GroupActivity extends BaseActivity {
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.group);
-        //ButterKnife.inject(this);
 
         ListView menuListView = (ListView) findViewById(R.id.groups_drawer_list_view);
         menuListView.setAdapter(new MenuItemsAdapter(this));
@@ -37,7 +44,12 @@ public class GroupActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
 
-        proceedData();
+        String requestParamsJson = gson.toJson(new RequestParams(LoginActivity.accountName));
+        try {
+            RoomiesRestClient.postJson(this, "groups/user", requestParamsJson);
+        } catch (UnsupportedEncodingException e) {
+            Log.e(GROUP_ACTIVITY_TAG, ErrorMessages.CONNECTION_TO_WEB_SERVICE_LOG_MESSAGE, e);
+        }
     }
 
     @Override
@@ -62,14 +74,13 @@ public class GroupActivity extends BaseActivity {
 
     @Override
     public void proceedData() {
-        if(data == null) {
+        if(data.isJsonNull()) {
             GroupNotExistsFragment notExistsFragment = new GroupNotExistsFragment();
-            getFragmentManager().beginTransaction().add(R.id.groups_drawer_layout, notExistsFragment).commit();
+            getFragmentManager().beginTransaction().replace(R.id.groups_content_frame, notExistsFragment).commit();
         }
         else {
-            //put data to groupExistsFragment
             GroupExistsFragment existsFragment = new GroupExistsFragment();
-            getFragmentManager().beginTransaction().add(R.id.groups_drawer_layout, existsFragment).commit();
+            getFragmentManager().beginTransaction().replace(R.id.groups_content_frame, existsFragment).commit();
         }
     }
 

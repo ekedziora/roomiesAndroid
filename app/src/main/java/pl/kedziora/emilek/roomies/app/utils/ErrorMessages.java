@@ -13,4 +13,6 @@ public class ErrorMessages {
     public static final String CONNECTION_TO_SERVER_MESSAGE =
             "Sorry, there was a problem connecting to server. Please try again later";
 
+    public static final String CONNECTION_TO_WEB_SERVICE_LOG_MESSAGE =
+            "Exception while sending request to web service";
 }

@@ -11,28 +11,30 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.google.common.net.MediaType;
-import com.google.gson.Gson;
 import com.koushikdutta.ion.Ion;
-
-import org.apache.http.entity.StringEntity;
 
 import java.io.UnsupportedEncodingException;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import pl.kedziora.emilek.json.objects.MyAccountData;
 import pl.kedziora.emilek.json.objects.RequestParams;
-import pl.kedziora.emilek.json.objects.UserAccountData;
 import pl.kedziora.emilek.roomies.R;
 import pl.kedziora.emilek.roomies.app.adapter.MenuItemsAdapter;
 import pl.kedziora.emilek.roomies.app.client.RoomiesRestClient;
-import pl.kedziora.emilek.roomies.app.handler.RequestResponseHandler;
+import pl.kedziora.emilek.roomies.app.utils.ErrorMessages;
 
 public class MyAccountActivity extends BaseActivity {
 
     private static final String MY_ACCOUNT_ACTIVITY_TAG = "MY ACCOUNT ACTIVITY";
 
     private ActionBarDrawerToggle drawerToggle;
+
+    @InjectView(R.id.my_account_drawer_list_view)
+    ListView menuListView;
+
+    @InjectView(R.id.my_account_drawer_layout)
+    DrawerLayout drawerLayout;
 
     @InjectView(R.id.my_account_user_image)
     ImageView userImage;
@@ -53,10 +55,8 @@ public class MyAccountActivity extends BaseActivity {
         setContentView(R.layout.my_account);
         ButterKnife.inject(this);
 
-        ListView menuListView = (ListView) findViewById(R.id.my_account_drawer_list_view);
         menuListView.setAdapter(new MenuItemsAdapter(this));
 
-        DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.my_account_drawer_layout);
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout,
                 R.drawable.ic_navigation_drawer, R.string.drawerOpened, R.string.drawerClosed);
         drawerLayout.setDrawerListener(drawerToggle);
@@ -66,12 +66,11 @@ public class MyAccountActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
 
-        String requestParamsJson = new Gson().toJson(new RequestParams(LoginActivity.accountName));
+        String requestParamsJson = gson.toJson(new RequestParams(LoginActivity.accountName));
         try {
-            RoomiesRestClient.post(this, "test/request", new StringEntity(requestParamsJson),
-                    MediaType.JSON_UTF_8.toString(), new RequestResponseHandler(this));
+            RoomiesRestClient.postJson(this, "account/my", requestParamsJson);
         } catch (UnsupportedEncodingException e) {
-            Log.e(MY_ACCOUNT_ACTIVITY_TAG, "Exception", e);
+            Log.e(MY_ACCOUNT_ACTIVITY_TAG, ErrorMessages.CONNECTION_TO_WEB_SERVICE_LOG_MESSAGE, e);
         }
     }
 
@@ -97,11 +96,11 @@ public class MyAccountActivity extends BaseActivity {
 
     @Override
     public void proceedData() {
-        UserAccountData accountData = new Gson().fromJson(data, UserAccountData.class);
+        MyAccountData accountData = gson.fromJson(data, MyAccountData.class);
 
         name.setText(accountData.getName());
         gender.setText(accountData.getGender());
-        mail.setText(accountData.getEmail());
+        mail.setText(accountData.getMail());
 
         Ion.with(userImage)
                 .error(R.drawable.image_error)

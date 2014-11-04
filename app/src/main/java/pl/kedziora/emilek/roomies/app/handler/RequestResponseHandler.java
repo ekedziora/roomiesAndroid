@@ -2,7 +2,7 @@ package pl.kedziora.emilek.roomies.app.handler;
 
 import android.util.Log;
 
-import com.google.gson.JsonObject;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.loopj.android.http.BaseJsonHttpResponseHandler;
 
@@ -14,7 +14,7 @@ import pl.kedziora.emilek.roomies.app.activity.LoginActivity;
 import pl.kedziora.emilek.roomies.app.tasks.GetUserAuthCodeTask;
 import pl.kedziora.emilek.roomies.app.utils.CoreUtils;
 
-public class RequestResponseHandler extends BaseJsonHttpResponseHandler<JsonObject> {
+public class RequestResponseHandler extends BaseJsonHttpResponseHandler<JsonElement> {
 
     private static final String REQUEST_RESPONSE_HANDLER_TAG = "REQUEST RESPONSE HANDLER";
 
@@ -28,13 +28,13 @@ public class RequestResponseHandler extends BaseJsonHttpResponseHandler<JsonObje
     }
 
     @Override
-    public void onSuccess(int statusCode, Header[] headers, String rawJsonResponse, JsonObject response) {
+    public void onSuccess(int statusCode, Header[] headers, String rawJsonResponse, JsonElement response) {
         activity.setData(response);
         activity.proceedData();
     }
 
     @Override
-    public void onFailure(int statusCode, Header[] headers, Throwable throwable, String rawJsonData, JsonObject errorResponse) {
+    public void onFailure(int statusCode, Header[] headers, Throwable throwable, String rawJsonData, JsonElement errorResponse) {
         if(statusCode == HttpStatus.SC_UNAUTHORIZED) {
             new GetUserAuthCodeTask(activity, CoreUtils.SCOPE, LoginActivity.accountName).execute();
         }
@@ -44,11 +44,11 @@ public class RequestResponseHandler extends BaseJsonHttpResponseHandler<JsonObje
     }
 
     @Override
-    protected JsonObject parseResponse(String rawJsonData, boolean isFailure) throws Throwable {
+    protected JsonElement parseResponse(String rawJsonData, boolean isFailure) throws Throwable {
         if(isFailure) {
             return null;
         }
-        return (JsonObject) jsonParser.parse(rawJsonData);
+        return jsonParser.parse(rawJsonData);
     }
 
     @Override

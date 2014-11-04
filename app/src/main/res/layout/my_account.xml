@@ -66,8 +66,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/my_account_user_image"
-            android:src="@drawable/image_error" />
+            android:id="@+id/my_account_user_image" />
 
     </LinearLayout>
 

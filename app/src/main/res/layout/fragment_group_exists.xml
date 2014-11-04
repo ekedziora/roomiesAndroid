@@ -8,7 +8,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/nameColon"
-        android:id="@+id/textView"
+        android:id="@+id/groups_name_label"
         android:layout_marginLeft="119dp"
         android:layout_marginTop="24dp"
         android:layout_alignParentTop="true"
@@ -18,10 +18,10 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/textView2"
-        android:layout_toEndOf="@+id/textView"
-        android:layout_alignTop="@+id/textView"
-        android:layout_toRightOf="@+id/textView"
+        android:id="@+id/groups_name_value"
+        android:layout_toEndOf="@+id/groups_name_label"
+        android:layout_alignTop="@+id/groups_name_label"
+        android:layout_toRightOf="@+id/groups_name_label"
         android:layout_marginLeft="37dp"
         android:singleLine="false" />
 
@@ -29,44 +29,44 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/addressColon"
-        android:id="@+id/textView3"
+        android:id="@+id/groups_address_label"
         android:layout_marginTop="22dp"
-        android:layout_below="@+id/textView"
-        android:layout_toLeftOf="@+id/textView2"
-        android:layout_toStartOf="@+id/textView2" />
+        android:layout_below="@+id/groups_name_label"
+        android:layout_toLeftOf="@+id/groups_name_value"
+        android:layout_toStartOf="@+id/groups_name_value" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/textView4"
-        android:layout_alignTop="@+id/textView3"
-        android:layout_alignLeft="@+id/textView2"
-        android:layout_alignStart="@+id/textView2" />
+        android:id="@+id/groups_address_value"
+        android:layout_alignTop="@+id/groups_address_label"
+        android:layout_alignLeft="@+id/groups_name_value"
+        android:layout_alignStart="@+id/groups_name_value" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/adminColon"
-        android:id="@+id/textView5"
+        android:id="@+id/groups_admin_label"
         android:layout_marginTop="21dp"
-        android:layout_below="@+id/textView3"
-        android:layout_toLeftOf="@+id/textView2"
-        android:layout_toStartOf="@+id/textView2" />
+        android:layout_below="@+id/groups_address_label"
+        android:layout_toLeftOf="@+id/groups_name_value"
+        android:layout_toStartOf="@+id/groups_name_value" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/textView6"
-        android:layout_alignTop="@+id/textView5"
-        android:layout_alignLeft="@+id/textView4"
-        android:layout_alignStart="@+id/textView4" />
+        android:id="@+id/groups_admin_value"
+        android:layout_alignTop="@+id/groups_admin_label"
+        android:layout_alignLeft="@+id/groups_address_value"
+        android:layout_alignStart="@+id/groups_address_value" />
 
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/listView"
+        android:id="@+id/groups_members_list_view"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/textView5"
+        android:layout_below="@+id/groups_admin_label"
         android:layout_marginTop="20dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"/>

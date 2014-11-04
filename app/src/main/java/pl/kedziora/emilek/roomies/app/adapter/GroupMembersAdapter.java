@@ -7,13 +7,23 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.koushikdutta.ion.Ion;
+
 import java.util.List;
+
+import pl.kedziora.emilek.json.objects.GroupMember;
+import pl.kedziora.emilek.roomies.R;
 
 public class GroupMembersAdapter extends BaseAdapter {
 
     private LayoutInflater inflater;
 
-    private List members;
+    private List<GroupMember> members;
+
+    public GroupMembersAdapter(LayoutInflater inflater, List<GroupMember> members) {
+        this.inflater = inflater;
+        this.members = members;
+    }
 
     @Override
     public int getCount() {
@@ -37,10 +47,12 @@ public class GroupMembersAdapter extends BaseAdapter {
         final ImageView icon = (ImageView) item.findViewById(android.R.id.icon);
         TextView text = (TextView) item.findViewById(android.R.id.text1);
 
+        GroupMember member = members.get(position);
 
-
-        //icon.setImageResource(MenuUtils.items.get(position).getIcon());
-        //text.setText(MenuUtils.items.get(position).getText());
+        text.setText(member.getName());
+        Ion.with(icon)
+                .error(R.drawable.image_error)
+                .load(member.getPictureLink());
 
         return item;
     }

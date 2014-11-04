@@ -42,7 +42,7 @@
                 android:value="pl.kedziora.emilek.roomies.app.activity.DashboardActivity" />
         </activity>
         <activity
-            android:name=".app.activity.GroupsExistingActivity"
+            android:name=".app.activity.GroupActivity"
             android:label="@string/title_activity_groups"
             android:parentActivityName=".app.activity.DashboardActivity" >
             <meta-data
@@ -50,12 +50,12 @@
                 android:value="pl.kedziora.emilek.roomies.app.activity.DashboardActivity" />
         </activity>
         <activity
-            android:name=".app.activity.GroupActivity"
-            android:label="@string/title_activity_groups"
-            android:parentActivityName=".app.activity.DashboardActivity" >
+            android:name=".app.activity.JoinGroupActivity"
+            android:label="@string/title_activity_join_group"
+            android:parentActivityName=".app.activity.GroupActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="pl.kedziora.emilek.roomies.app.activity.DashboardActivity" />
+                android:value="pl.kedziora.emilek.roomies.app.activity.GroupActivity" />
         </activity>
     </application>
 

@@ -18,16 +18,16 @@
         android:layout_width="130dp"
         android:layout_height="wrap_content"
         android:text="@string/group_join"
-        android:id="@+id/groups_not_exists_join_button"
+        android:id="@+id/groups_join_button"
         android:layout_marginTop="29dp"
-        android:layout_below="@+id/groups_not_exists_create_button"
+        android:layout_below="@+id/groups_create_button"
         android:layout_centerHorizontal="true" />
 
     <Button
         android:layout_width="130dp"
         android:layout_height="wrap_content"
         android:text="@string/group_create"
-        android:id="@+id/groups_not_exists_create_button"
+        android:id="@+id/groups_create_button"
         android:layout_below="@+id/groups_not_exists_label"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="29dp" />

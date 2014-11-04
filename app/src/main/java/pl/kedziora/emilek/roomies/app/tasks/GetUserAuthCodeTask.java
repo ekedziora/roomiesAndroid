@@ -1,6 +1,5 @@
 package pl.kedziora.emilek.roomies.app.tasks;
 
-import android.app.Activity;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -9,18 +8,15 @@ import com.google.android.gms.auth.GoogleAuthUtil;
 import com.google.android.gms.auth.GooglePlayServicesAvailabilityException;
 import com.google.android.gms.auth.UserRecoverableAuthException;
 import com.google.android.gms.common.GooglePlayServicesUtil;
-import com.google.common.net.MediaType;
 import com.google.gson.Gson;
-
-import org.apache.http.entity.StringEntity;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 import pl.kedziora.emilek.json.objects.AuthCodeRequestParams;
+import pl.kedziora.emilek.roomies.app.activity.BaseActivity;
 import pl.kedziora.emilek.roomies.app.activity.LoginActivity;
 import pl.kedziora.emilek.roomies.app.client.RoomiesRestClient;
-import pl.kedziora.emilek.roomies.app.handler.AuthCodeRequestResponseHandler;
 import pl.kedziora.emilek.roomies.app.utils.AlertDialogUtils;
 import pl.kedziora.emilek.roomies.app.utils.ErrorMessages;
 
@@ -33,11 +29,11 @@ public class GetUserAuthCodeTask extends AsyncTask<Void, Void, String> {
 
     private static final int REQUEST_AUTHORIZATION_CODE = 1002;
 
-    private Activity activity;
+    private BaseActivity activity;
     private String scope;
     private String mail;
 
-    public GetUserAuthCodeTask(Activity activity, String scope, String mail) {
+    public GetUserAuthCodeTask(BaseActivity activity, String scope, String mail) {
         this.activity = activity;
         this.scope = scope;
         this.mail = mail;
@@ -85,8 +81,7 @@ public class GetUserAuthCodeTask extends AsyncTask<Void, Void, String> {
                 AuthCodeRequestParams params = new AuthCodeRequestParams(LoginActivity.accountName, result);
                 String paramsString = new Gson().toJson(params, AuthCodeRequestParams.class);
                 try {
-                    RoomiesRestClient.post(activity, "authcode/get", new StringEntity(paramsString),
-                            MediaType.JSON_UTF_8.toString(), new AuthCodeRequestResponseHandler(activity));
+                    RoomiesRestClient.postJson(activity, "authcode/get", paramsString);
                 } catch (UnsupportedEncodingException e) {
                     Log.e(AUTH_CODE_TAG, "Exception during creating auth code string entity JSON", e);
                 }

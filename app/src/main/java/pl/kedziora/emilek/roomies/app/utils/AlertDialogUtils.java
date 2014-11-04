@@ -78,4 +78,21 @@ public class AlertDialogUtils {
                 .show();
     }
 
+    /**
+     * Shows alert dialog with yes/no buttons, cancel behaviour on 'no' clicked and custom onClickListener on 'yes' clicked
+     *
+     * @param context
+     * @param title
+     * @param message
+     * @param onClickListener behaviour on 'yes' click
+     */
+    public static void showYesNoAlertDialog(Context context, String title, String message, DialogInterface.OnClickListener onClickListener) {
+        new AlertDialog.Builder(context)
+                .setTitle(title)
+                .setMessage(message)
+                .setPositiveButton("Yes", onClickListener)
+                .setNegativeButton("No", DIALOG_CANCEL)
+                .show();
+    }
+
 }

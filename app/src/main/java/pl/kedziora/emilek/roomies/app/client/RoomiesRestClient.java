@@ -30,9 +30,9 @@ public class RoomiesRestClient {
         client.post(context, getAbsoluteUrl(url), entity, contentType, responseHandler);
     }
 
-    public static void postJson(Context context, String url, String json) throws UnsupportedEncodingException {
+    public static void postJson(BaseActivity context, String url, String json) throws UnsupportedEncodingException {
         client.setTimeout(100000000);
-        client.post(context, getAbsoluteUrl(url), new StringEntity(json), MediaType.JSON_UTF_8.toString(), new RequestResponseHandler((BaseActivity) context));
+        client.post(context, getAbsoluteUrl(url), new StringEntity(json), MediaType.JSON_UTF_8.toString(), new RequestResponseHandler(context));
     }
 
     private static String getAbsoluteUrl(String relativeUrl) {

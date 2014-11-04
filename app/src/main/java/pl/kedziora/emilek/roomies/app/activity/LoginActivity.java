@@ -22,8 +22,6 @@ public class LoginActivity extends Activity {
 
     private static final int GET_ACCOUNT_CODE = 1001;
 
-    //TODO gdzie autoryzacje obsłużyć (Dashboard?)
-
     private static final String LOGIN_ACTIVITY_TAG = "LOGIN ACTIVITY";
 
     public static String accountName; //TODO gdzies idziej

@@ -6,6 +6,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/groups_content_frame"/>
+
     <ListView android:id="@+id/groups_drawer_list_view"
         android:layout_width="200dp"
         android:layout_height="match_parent"
