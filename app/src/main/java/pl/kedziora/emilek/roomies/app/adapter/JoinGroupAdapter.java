@@ -2,7 +2,6 @@ package pl.kedziora.emilek.roomies.app.adapter;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +21,8 @@ import pl.kedziora.emilek.roomies.app.activity.BaseActivity;
 import pl.kedziora.emilek.roomies.app.activity.LoginActivity;
 import pl.kedziora.emilek.roomies.app.client.RoomiesRestClient;
 import pl.kedziora.emilek.roomies.app.utils.AlertDialogUtils;
-import pl.kedziora.emilek.roomies.app.utils.ErrorMessages;
+
+import static pl.kedziora.emilek.roomies.app.utils.CoreUtils.logWebServiceConnectionError;
 
 public class JoinGroupAdapter extends BaseAdapter {
 
@@ -83,7 +83,7 @@ public class JoinGroupAdapter extends BaseAdapter {
                                 try {
                                     RoomiesRestClient.postJson(context, "groups/userJoin", paramsJson);
                                 } catch (UnsupportedEncodingException e) {
-                                    Log.e(JOIN_GROUP_ADAPTER_TAG, ErrorMessages.CONNECTION_TO_WEB_SERVICE_LOG_MESSAGE, e);
+                                    logWebServiceConnectionError(JOIN_GROUP_ADAPTER_TAG, e);
                                 }
                             }
                         });

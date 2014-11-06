@@ -53,4 +53,7 @@ dependencies {
     compile 'pl.kedziora.emilek:roomies_json_objects:1.0-SNAPSHOT'
     compile 'com.koushikdutta.ion:ion:1.+'
     compile 'com.jakewharton:butterknife:6.0.0'
+    compile ('eu.inmite.android.lib:android-validation-komensky:0.9.2') {
+        exclude module: 'support-v4'
+    }
 }

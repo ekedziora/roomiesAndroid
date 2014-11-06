@@ -4,7 +4,6 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.Window;
 import android.widget.ImageView;
@@ -22,7 +21,8 @@ import pl.kedziora.emilek.json.objects.RequestParams;
 import pl.kedziora.emilek.roomies.R;
 import pl.kedziora.emilek.roomies.app.adapter.MenuItemsAdapter;
 import pl.kedziora.emilek.roomies.app.client.RoomiesRestClient;
-import pl.kedziora.emilek.roomies.app.utils.ErrorMessages;
+
+import static pl.kedziora.emilek.roomies.app.utils.CoreUtils.logWebServiceConnectionError;
 
 public class MyAccountActivity extends BaseActivity {
 
@@ -70,7 +70,7 @@ public class MyAccountActivity extends BaseActivity {
         try {
             RoomiesRestClient.postJson(this, "account/my", requestParamsJson);
         } catch (UnsupportedEncodingException e) {
-            Log.e(MY_ACCOUNT_ACTIVITY_TAG, ErrorMessages.CONNECTION_TO_WEB_SERVICE_LOG_MESSAGE, e);
+            logWebServiceConnectionError(MY_ACCOUNT_ACTIVITY_TAG, e);
         }
     }
 

@@ -3,19 +3,13 @@
 
     <string name="app_name">Roomies</string>
     <string name="welcome">Hello roomie!</string>
-    <string name="loginColon">Login:</string>
-    <string name="passwordColon">Password:</string>
     <string name="login">Login</string>
-    <string name="register">Register</string>
     <string name="actionSettings">Settings</string>
-    <string name="confirmPassword">Confirm password</string>
-    <string name="confirmPasswordColon">Confirm password:</string>
     <string name="mail">E-mail</string>
     <string name="mailColon">E-mail:</string>
     <string name="name">Name</string>
     <string name="nameColon">Name:</string>
     <string name="surnameColon">Surname:</string>
-    <string name="ageColon">Age:</string>
     <string name="genderColon">Gender:</string>
     <string name="actionAccount">My account</string>
     <string name="title_activity_dashboard">Dashboard</string>
@@ -28,8 +22,11 @@
     <string name="group_create">Create group</string>
     <string name="group_join">Join group</string>
     <string name="addressColon">Address:</string>
+    <string name="address">Address</string>
     <string name="adminColon">Admin:</string>
     <string name="title_activity_join_group">Join group</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_create_group">Create group</string>
+    <string name="emptyFieldMessage">This field can\'t be empty</string>
 
 </resources>

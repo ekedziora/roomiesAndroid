@@ -57,6 +57,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="pl.kedziora.emilek.roomies.app.activity.GroupActivity" />
         </activity>
+        <activity
+            android:name=".app.activity.CreateGroupActivity"
+            android:label="@string/title_activity_create_group"
+            android:parentActivityName=".app.activity.GroupActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="pl.kedziora.emilek.roomies.app.activity.GroupActivity" />
+        </activity>
     </application>
 
 </manifest>

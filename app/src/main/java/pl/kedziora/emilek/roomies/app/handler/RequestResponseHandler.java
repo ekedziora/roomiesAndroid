@@ -12,7 +12,9 @@ import org.apache.http.HttpStatus;
 import pl.kedziora.emilek.roomies.app.activity.BaseActivity;
 import pl.kedziora.emilek.roomies.app.activity.LoginActivity;
 import pl.kedziora.emilek.roomies.app.tasks.GetUserAuthCodeTask;
+import pl.kedziora.emilek.roomies.app.utils.AlertDialogUtils;
 import pl.kedziora.emilek.roomies.app.utils.CoreUtils;
+import pl.kedziora.emilek.roomies.app.utils.ErrorMessages;
 
 public class RequestResponseHandler extends BaseJsonHttpResponseHandler<JsonElement> {
 
@@ -39,6 +41,7 @@ public class RequestResponseHandler extends BaseJsonHttpResponseHandler<JsonElem
             new GetUserAuthCodeTask(activity, CoreUtils.SCOPE, LoginActivity.accountName).execute();
         }
         else {
+            AlertDialogUtils.showDefaultAlertDialog(activity, ErrorMessages.CONNECTION_TO_SERVER_MESSAGE);
             Log.e(REQUEST_RESPONSE_HANDLER_TAG, "Unexpected response status code  " + statusCode, throwable);
         }
     }

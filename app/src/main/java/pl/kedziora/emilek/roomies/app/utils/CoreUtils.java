@@ -29,4 +29,8 @@ public class CoreUtils {
         }
     }
 
+    public static void logWebServiceConnectionError(String tag, Throwable e) {
+        Log.e(tag, ErrorMessages.CONNECTION_TO_WEB_SERVICE_LOG_MESSAGE, e);
+    }
+
 }

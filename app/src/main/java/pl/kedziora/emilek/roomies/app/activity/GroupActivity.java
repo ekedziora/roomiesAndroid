@@ -4,7 +4,6 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.Window;
 import android.widget.ListView;
@@ -17,7 +16,8 @@ import pl.kedziora.emilek.roomies.app.adapter.MenuItemsAdapter;
 import pl.kedziora.emilek.roomies.app.client.RoomiesRestClient;
 import pl.kedziora.emilek.roomies.app.fragment.GroupExistsFragment;
 import pl.kedziora.emilek.roomies.app.fragment.GroupNotExistsFragment;
-import pl.kedziora.emilek.roomies.app.utils.ErrorMessages;
+
+import static pl.kedziora.emilek.roomies.app.utils.CoreUtils.logWebServiceConnectionError;
 
 public class GroupActivity extends BaseActivity {
 
@@ -48,7 +48,7 @@ public class GroupActivity extends BaseActivity {
         try {
             RoomiesRestClient.postJson(this, "groups/user", requestParamsJson);
         } catch (UnsupportedEncodingException e) {
-            Log.e(GROUP_ACTIVITY_TAG, ErrorMessages.CONNECTION_TO_WEB_SERVICE_LOG_MESSAGE, e);
+            logWebServiceConnectionError(GROUP_ACTIVITY_TAG, e);
         }
     }
 

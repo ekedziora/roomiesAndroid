@@ -12,6 +12,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 import pl.kedziora.emilek.roomies.R;
+import pl.kedziora.emilek.roomies.app.activity.CreateGroupActivity;
 import pl.kedziora.emilek.roomies.app.activity.JoinGroupActivity;
 
 public class GroupNotExistsFragment extends Fragment {
@@ -46,7 +47,7 @@ public class GroupNotExistsFragment extends Fragment {
 
     @OnClick(R.id.groups_create_button)
     public void createButtonClicked() {
-
+        startActivity(new Intent(getActivity(), CreateGroupActivity.class));
     }
 
 }
