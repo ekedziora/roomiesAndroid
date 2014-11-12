@@ -6,7 +6,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="pl.kedziora.emilek.roomies.app.activity.CreateGroupActivity">
+    tools:context="pl.kedziora.emilek.roomies.app.activity.EditGroupActivity">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -18,7 +18,7 @@
             android:layout_height="match_parent">
 
             <EditText
-                android:id="@+id/group_create_name_edit"
+                android:id="@+id/group_edit_name_edit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
@@ -27,29 +27,49 @@
                 android:hint="@string/name" />
 
             <EditText
-                android:id="@+id/group_create_address_edit"
+                android:id="@+id/group_edit_address_edit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:layout_below="@+id/group_create_name_edit"
+                android:layout_below="@+id/group_edit_name_edit"
                 android:layout_marginTop="10dp"
                 android:hint="@string/address" />
 
             <ListView
-                android:id="@+id/group_create_users_list"
+                android:id="@+id/group_edit_users_list"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/group_create_address_edit"
+                android:layout_height="200dp"
+                android:layout_below="@+id/group_edit_address_edit"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="10dp"
-                android:choiceMode="multipleChoice" />
+                android:choiceMode="multipleChoice"
+                android:scrollbars="vertical" />
+
+            <TextView
+                android:id="@+id/group_edit_admin_spinner_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@id/group_edit_users_list"
+                android:layout_marginTop="10dp"
+                android:text="@string/admin" />
+
+            <Spinner
+                android:id="@+id/group_edit_admin_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@id/group_edit_admin_spinner_label"
+                android:layout_marginTop="10dp" />
 
             <Button
-                android:id="@+id/group_create_button_create"
+                android:id="@+id/group_edit_button_save"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/group_create_users_list"
+                android:layout_below="@+id/group_edit_admin_spinner"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="10dp"
                 android:text="@string/save" />

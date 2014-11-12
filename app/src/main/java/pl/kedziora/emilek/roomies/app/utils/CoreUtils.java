@@ -3,9 +3,16 @@ package pl.kedziora.emilek.roomies.app.utils;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.SparseBooleanArray;
+import android.widget.ListView;
+
+import com.google.common.collect.Lists;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
+
+import pl.kedziora.emilek.json.objects.MemberToAddData;
 
 public class CoreUtils {
 
@@ -31,6 +38,17 @@ public class CoreUtils {
 
     public static void logWebServiceConnectionError(String tag, Throwable e) {
         Log.e(tag, ErrorMessages.CONNECTION_TO_WEB_SERVICE_LOG_MESSAGE, e);
+    }
+
+    public static List<MemberToAddData> getMembersToAddFromListView(ListView listView, List<MemberToAddData> membersList) {
+        List<MemberToAddData> membersToAdd = Lists.newArrayList();
+        SparseBooleanArray checkedItemPositions = listView.getCheckedItemPositions();
+        for (int i = 0; i < checkedItemPositions.size(); i++) {
+            if (checkedItemPositions.get(i)) {
+                membersToAdd.add(membersList.get(i));
+            }
+        }
+        return membersToAdd;
     }
 
 }
