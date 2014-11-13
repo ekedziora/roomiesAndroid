@@ -1,5 +1,6 @@
 package pl.kedziora.emilek.roomies.app.handler;
 
+import android.content.Intent;
 import android.util.Log;
 
 import com.google.gson.JsonElement;
@@ -39,6 +40,11 @@ public class RequestResponseHandler extends BaseJsonHttpResponseHandler<JsonElem
     public void onFailure(int statusCode, Header[] headers, Throwable throwable, String rawJsonData, JsonElement errorResponse) {
         if(statusCode == HttpStatus.SC_UNAUTHORIZED) {
             new GetUserAuthCodeTask(activity, CoreUtils.SCOPE, LoginActivity.accountName).execute();
+        }
+        else if(statusCode == HttpStatus.SC_LOCKED) {
+            AlertDialogUtils.showDefaultAlertDialog(activity, "Data locked",
+                    "Unfortunetly, other user changed data you just tried to edit. Please see changes and try again.", "OK");
+            activity.startActivity(new Intent(activity, activity.getClass()));
         }
         else {
             AlertDialogUtils.showDefaultAlertDialog(activity, ErrorMessages.CONNECTION_TO_SERVER_MESSAGE);
