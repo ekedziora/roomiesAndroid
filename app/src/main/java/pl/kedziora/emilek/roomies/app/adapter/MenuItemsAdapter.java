@@ -64,6 +64,9 @@ public class MenuItemsAdapter extends BaseAdapter {
                 else if(MenuUtils.MenuItem.GROUPS.equals(item)) {
                     context.startActivity(new Intent(context, GroupActivity.class));
                 }
+                else if(MenuUtils.MenuItem.BUDGET.equals(item)) {
+
+                }
             }
         });
 

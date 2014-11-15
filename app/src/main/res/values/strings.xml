@@ -34,5 +34,7 @@
     <string name="save">Save</string>
     <string name="title_activity_edit_group">Edit group</string>
     <string name="admin">Admin</string>
+    <string name="title_activity_budget">Budget</string>
+    <string name="current_balance">Current balance:</string>
 
 </resources>

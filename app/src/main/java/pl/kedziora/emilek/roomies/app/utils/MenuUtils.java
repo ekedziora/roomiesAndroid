@@ -18,7 +18,8 @@ public class MenuUtils {
 
         DASHBOARD("Dashboard", R.drawable.ic_dashboard),
         MY_ACCOUNT("My account", R.drawable.ic_my_account),
-        GROUPS("Groups", R.drawable.ic_groups);
+        GROUPS("Groups", R.drawable.ic_groups),
+        BUDGET("Budget", R.drawable.ic_budget);
 
         private String text;
 

@@ -17,7 +17,7 @@ import pl.kedziora.emilek.roomies.app.handler.RequestResponseHandler;
 
 public class RoomiesRestClient {
 
-    private static final String BASE_URL = "http://10.0.3.2:8080/";
+    private static final String BASE_URL = "http://192.168.1.11:8080/";
 
     private static AsyncHttpClient client = new AsyncHttpClient();
 

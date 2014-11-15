@@ -73,6 +73,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="pl.kedziora.emilek.roomies.app.activity.GroupActivity" />
         </activity>
+        <activity
+            android:name=".app.activity.BudgetActivity"
+            android:label="@string/title_activity_budget" >
+        </activity>
     </application>
 
 </manifest>

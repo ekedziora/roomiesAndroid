@@ -89,7 +89,7 @@ public class CreateGroupActivity extends BaseActivity {
         }
     }
 
-    @OnClick(R.id.group_edit_button_save)
+    @OnClick(R.id.group_create_button_create)
     public void onCreateButtonClicked() {
         if(FormValidator.validate(this, new SimpleErrorPopupCallback(this))) {
             List<MemberToAddData> membersToAdd = CoreUtils.getMembersToAddFromListView(members, membersData);
