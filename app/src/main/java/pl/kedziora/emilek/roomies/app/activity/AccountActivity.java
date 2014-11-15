@@ -24,7 +24,7 @@ import pl.kedziora.emilek.roomies.app.client.RoomiesRestClient;
 
 import static pl.kedziora.emilek.roomies.app.utils.CoreUtils.logWebServiceConnectionError;
 
-public class MyAccountActivity extends BaseActivity {
+public class AccountActivity extends BaseActivity {
 
     private static final String MY_ACCOUNT_ACTIVITY_TAG = "MY ACCOUNT ACTIVITY";
 

@@ -37,7 +37,7 @@
             android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".app.activity.MyAccountActivity"
+            android:name=".app.activity.AccountActivity"
             android:label="@string/title_activity_my_account"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait">

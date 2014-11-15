@@ -10,10 +10,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import pl.kedziora.emilek.roomies.R;
+import pl.kedziora.emilek.roomies.app.activity.AccountActivity;
 import pl.kedziora.emilek.roomies.app.activity.BudgetActivity;
 import pl.kedziora.emilek.roomies.app.activity.DashboardActivity;
 import pl.kedziora.emilek.roomies.app.activity.GroupActivity;
-import pl.kedziora.emilek.roomies.app.activity.MyAccountActivity;
 import pl.kedziora.emilek.roomies.app.utils.MenuUtils;
 
 public class MenuItemsAdapter extends BaseAdapter {
@@ -60,7 +60,7 @@ public class MenuItemsAdapter extends BaseAdapter {
                     context.startActivity(new Intent(context, DashboardActivity.class));
                 }
                 else if(MenuUtils.MenuItem.MY_ACCOUNT.equals(item)) {
-                    context.startActivity(new Intent(context, MyAccountActivity.class));
+                    context.startActivity(new Intent(context, AccountActivity.class));
                 }
                 else if(MenuUtils.MenuItem.GROUPS.equals(item)) {
                     context.startActivity(new Intent(context, GroupActivity.class));
