@@ -39,5 +39,12 @@
     <string name="delete">Delete</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="add_payment">Add payment</string>
+    <string name="title_activity_add_payment">Add payment</string>
+    <string name="description">Description</string>
+    <string name="amount">Amount(zł)</string>
+    <string name="amount_min_value_message">Amount must be positive</string>
+    <string name="amount_max_value_message">Amount must be smaller than 100000</string>
+    <string name="amount_bad_format_message">Bad amount format</string>
+    <string name="amount_hint">0.00</string>
 
 </resources>

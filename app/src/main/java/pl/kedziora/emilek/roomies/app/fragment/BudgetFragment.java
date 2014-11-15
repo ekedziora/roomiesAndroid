@@ -1,6 +1,7 @@
 package pl.kedziora.emilek.roomies.app.fragment;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +20,7 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 import pl.kedziora.emilek.json.objects.data.BudgetData;
 import pl.kedziora.emilek.roomies.R;
+import pl.kedziora.emilek.roomies.app.activity.AddPaymentActivity;
 import pl.kedziora.emilek.roomies.app.activity.BaseActivity;
 import pl.kedziora.emilek.roomies.app.adapter.BudgetPaymentsAdapter;
 
@@ -71,7 +73,7 @@ public class BudgetFragment extends Fragment {
 
     @OnClick(R.id.budget_add_payment_button)
     public void onAddPaymentButtonClicked() {
-        //start add payment activity
+        startActivity(new Intent(activity, AddPaymentActivity.class));
     }
 
 }

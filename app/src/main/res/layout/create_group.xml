@@ -30,7 +30,7 @@
     <ListView
         android:id="@+id/group_create_users_list"
         android:layout_width="wrap_content"
-        android:layout_height="200dp"
+        android:layout_height="300dp"
         android:layout_below="@+id/group_create_address_edit"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
