@@ -75,9 +75,8 @@ public class JoinGroupAdapter extends BaseAdapter {
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                JoinGroupData clickedGroupData = groups.get(position);
                                 JoinGroupParams joinGroupParams =
-                                        new JoinGroupParams(clickedGroupData.getGroupId(), new RequestParams(LoginActivity.accountName));
+                                        new JoinGroupParams(groupData.getGroupId(), new RequestParams(LoginActivity.accountName));
                                 String paramsJson = new Gson().toJson(joinGroupParams);
 
                                 try {

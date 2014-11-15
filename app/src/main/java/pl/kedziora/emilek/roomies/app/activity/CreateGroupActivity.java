@@ -21,7 +21,7 @@ import butterknife.OnClick;
 import eu.inmite.android.lib.validations.form.FormValidator;
 import eu.inmite.android.lib.validations.form.annotations.NotEmpty;
 import eu.inmite.android.lib.validations.form.callback.SimpleErrorPopupCallback;
-import pl.kedziora.emilek.json.objects.MemberToAddData;
+import pl.kedziora.emilek.json.objects.data.MemberToAddData;
 import pl.kedziora.emilek.json.objects.params.RequestParams;
 import pl.kedziora.emilek.json.objects.params.SaveGroupParams;
 import pl.kedziora.emilek.roomies.R;

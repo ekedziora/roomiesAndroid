@@ -12,7 +12,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import pl.kedziora.emilek.json.objects.MemberToAddData;
+import pl.kedziora.emilek.json.objects.data.MemberToAddData;
 
 public class CoreUtils {
 

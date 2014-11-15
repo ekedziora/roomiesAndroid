@@ -1,5 +1,6 @@
 package pl.kedziora.emilek.roomies.app.activity;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -8,10 +9,18 @@ import android.view.MenuItem;
 import android.view.Window;
 import android.widget.ListView;
 
+import java.io.UnsupportedEncodingException;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import pl.kedziora.emilek.json.objects.RequestParams;
+import pl.kedziora.emilek.json.objects.data.BudgetData;
 import pl.kedziora.emilek.roomies.R;
 import pl.kedziora.emilek.roomies.app.adapter.MenuItemsAdapter;
+import pl.kedziora.emilek.roomies.app.client.RoomiesRestClient;
+import pl.kedziora.emilek.roomies.app.fragment.BudgetFragment;
+import pl.kedziora.emilek.roomies.app.fragment.GroupNotExistsFragment;
+import pl.kedziora.emilek.roomies.app.utils.CoreUtils;
 
 public class BudgetActivity extends BaseActivity {
 
@@ -41,6 +50,20 @@ public class BudgetActivity extends BaseActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+
+        RequestParams params = new RequestParams(LoginActivity.accountName);
+        String paramsJson = gson.toJson(params);
+
+        try {
+            RoomiesRestClient.postJson(this, "payments/getData", paramsJson);
+        } catch (UnsupportedEncodingException e) {
+            CoreUtils.logWebServiceConnectionError(BUDGET_ACTIVITY_TAG, e);
+        }
+    }
+
+    @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         drawerToggle.syncState();
@@ -62,7 +85,21 @@ public class BudgetActivity extends BaseActivity {
 
     @Override
     public void proceedData() {
+        if(data.isJsonNull()) {
+            startActivity(new Intent(this, BudgetActivity.class));
+        }
+        else {
+            BudgetData budgetData = gson.fromJson(data, BudgetData.class);
 
+            if(budgetData.getCurrentUserId() == null) {
+                GroupNotExistsFragment notExistsFragment = new GroupNotExistsFragment();
+                getFragmentManager().beginTransaction().replace(R.id.budget_content_frame, notExistsFragment).commit();
+            }
+            else {
+                BudgetFragment budgetFragment = new BudgetFragment();
+                getFragmentManager().beginTransaction().replace(R.id.budget_content_frame, budgetFragment).commit();
+            }
+        }
     }
 
 }
