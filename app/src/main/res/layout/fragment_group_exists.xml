@@ -96,5 +96,7 @@
         android:layout_below="@+id/groups_admin_label"
         android:layout_marginTop="20dp"
         android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"/>
+        android:layout_marginRight="20dp"
+        android:choiceMode="none"
+        android:fadeScrollbars="false"/>
 </RelativeLayout>

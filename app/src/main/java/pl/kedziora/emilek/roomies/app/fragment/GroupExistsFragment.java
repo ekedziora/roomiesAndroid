@@ -56,6 +56,9 @@ public class GroupExistsFragment extends Fragment {
     @InjectView(R.id.groups_members_list_view)
     ListView membersListView;
 
+    @InjectView(R.id.emptyView)
+    TextView emptyView;
+
     private MyGroupData groupData;
 
     private BaseActivity activity;
@@ -76,6 +79,8 @@ public class GroupExistsFragment extends Fragment {
         name.setText(groupData.getName());
         address.setText(groupData.getAddress());
         admin.setText(groupData.getAdmin());
+
+        membersListView.setEmptyView(emptyView);
         membersListView.setAdapter(new GroupMembersAdapter(inflater, groupData.getMembers()));
 
         if(groupData.isCurrentUserAdmin()) {

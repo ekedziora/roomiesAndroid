@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import java.io.UnsupportedEncodingException;
 import java.util.List;
@@ -49,6 +50,9 @@ public class EditGroupActivity extends BaseActivity {
     @InjectView(R.id.group_edit_button_save)
     Button editGroupButton;
 
+    @InjectView(R.id.emptyView)
+    TextView emptyView;
+
     private List<MemberToAddData> availableMembersData;
 
     private List<MemberToAddData> membersData;
@@ -64,6 +68,8 @@ public class EditGroupActivity extends BaseActivity {
         setContentView(R.layout.edit_group);
 
         ButterKnife.inject(this);
+
+        availableMembersList.setEmptyView(emptyView);
     }
 
     @Override

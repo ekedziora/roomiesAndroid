@@ -32,7 +32,8 @@
         android:layout_below="@+id/budget_balance_label"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        android:choiceMode="none" />
+        android:choiceMode="none"
+        android:fadeScrollbars="false" />
 
     <Button
         android:layout_width="wrap_content"
