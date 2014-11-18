@@ -1,5 +1,6 @@
 package pl.kedziora.emilek.roomies.app.handler;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.util.Log;
 
@@ -42,9 +43,23 @@ public class RequestResponseHandler extends BaseJsonHttpResponseHandler<JsonElem
             new GetUserAuthCodeTask(activity, CoreUtils.SCOPE, LoginActivity.accountName).execute();
         }
         else if(statusCode == HttpStatus.SC_LOCKED) {
-            AlertDialogUtils.showDefaultAlertDialog(activity, "Data locked",
-                    "Unfortunetly, other user changed data you just tried to edit. Please see changes and try again.", "OK");
-            activity.startActivity(new Intent(activity, activity.getClass()));
+            AlertDialogUtils.showAlertDialogWithNeutralButton(activity, "Data locked",
+                    "Unfortunetly, other user changed data you just tried to edit. Please review changes and try again.",
+                    "OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            activity.startActivity(new Intent(activity, activity.getClass()));
+                        }
+                    });
+        }
+        else if(statusCode == HttpStatus.SC_CONFLICT) {
+            AlertDialogUtils.showAlertDialogWithNeutralButton(activity, ErrorMessages.DEFAULT_ERROR_TITLE,
+                    "Unexpected problem occured, try to login again", "OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            activity.startActivity(new Intent(activity, LoginActivity.class));
+                        }
+                    });
         }
         else {
             AlertDialogUtils.showDefaultAlertDialog(activity, ErrorMessages.CONNECTION_TO_SERVER_MESSAGE);
