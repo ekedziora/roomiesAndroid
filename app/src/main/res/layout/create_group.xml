@@ -15,7 +15,8 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:hint="@string/name" />
+        android:hint="@string/name"
+        android:inputType="textCapSentences"/>
 
     <EditText
         android:id="@+id/group_create_address_edit"
@@ -25,7 +26,8 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/group_create_name_edit"
         android:layout_marginTop="10dp"
-        android:hint="@string/address" />
+        android:hint="@string/address"
+        android:inputType="textCapSentences"/>
 
     <ListView
         android:id="@+id/group_create_users_list"

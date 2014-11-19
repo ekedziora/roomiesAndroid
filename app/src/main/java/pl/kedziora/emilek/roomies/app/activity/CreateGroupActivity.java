@@ -7,7 +7,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.google.gson.reflect.TypeToken;
 
@@ -48,9 +47,6 @@ public class CreateGroupActivity extends BaseActivity {
     @InjectView(R.id.group_create_button_create)
     Button createGroup;
 
-    @InjectView(R.id.emptyView)
-    TextView emptyView;
-
     private List<MemberToAddData> membersData;
 
     @Override
@@ -60,8 +56,6 @@ public class CreateGroupActivity extends BaseActivity {
         setContentView(R.layout.create_group);
 
         ButterKnife.inject(this);
-
-        members.setEmptyView(emptyView);
     }
 
     @Override

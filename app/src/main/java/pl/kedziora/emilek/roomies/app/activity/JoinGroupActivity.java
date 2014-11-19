@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Window;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.google.gson.reflect.TypeToken;
 
@@ -30,17 +29,12 @@ public class JoinGroupActivity extends BaseActivity {
     @InjectView(R.id.join_group_list)
     ListView groups;
 
-    @InjectView(R.id.emptyView)
-    TextView emptyView;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.join_group);
         ButterKnife.inject(this);
-
-        groups.setEmptyView(emptyView);
     }
 
     @Override

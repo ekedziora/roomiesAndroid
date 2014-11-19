@@ -35,9 +35,6 @@ public class BudgetFragment extends Fragment {
     @InjectView(R.id.budget_add_payment_button)
     Button addPaymentButton;
 
-    @InjectView(R.id.emptyView)
-    TextView emptyView;
-
     private BaseActivity activity;
 
     public BudgetFragment() {
@@ -62,7 +59,6 @@ public class BudgetFragment extends Fragment {
             balanceText.setTextColor(getResources().getColor(R.color.green));
         }
 
-        paymentsList.setEmptyView(emptyView);
         paymentsList.setAdapter(new BudgetPaymentsAdapter(activity, R.layout.budget_payments_list_item,
                 budgetData.getPayments(), budgetData.getCurrentUserId(), activity.getLayoutInflater()));
 

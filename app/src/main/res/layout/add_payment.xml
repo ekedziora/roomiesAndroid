@@ -1,68 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.support.v4.widget.DrawerLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/add_payment_drawer_layout"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:paddingLeft="30dp"
+    android:paddingRight="30dp">
 
-    <RelativeLayout
+    <TextView
+        android:id="@+id/add_payment_description_label"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingLeft="30dp"
-        android:paddingRight="30dp">
+        android:text="@string/description"
+        android:inputType="textCapSentences"/>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/add_payment_description_label"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
-            android:text="@string/description"/>
+    <EditText
+        android:id="@+id/add_payment_description_value"
+        android:layout_below="@+id/add_payment_description_label"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent" />
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/add_payment_description_value"
-            android:layout_below="@+id/add_payment_description_label"
-            android:layout_marginTop="10dp"/>
+    <TextView
+        android:id="@+id/add_payment_amount_label"
+        android:layout_below="@+id/add_payment_description_value"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:text="@string/amount" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/add_payment_amount_label"
-            android:layout_below="@+id/add_payment_description_value"
-            android:layout_marginTop="20dp"
-            android:text="@string/amount"/>
+    <EditText
+        android:ems="10"
+        android:hint="@string/amount_hint"
+        android:id="@+id/add_payment_amount_value"
+        android:inputType="numberDecimal"
+        android:layout_below="@+id/add_payment_amount_label"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent" />
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="numberDecimal"
-            android:ems="10"
-            android:id="@+id/add_payment_amount_value"
-            android:layout_below="@+id/add_payment_amount_label"
-            android:hint="@string/amount_hint"
-            android:layout_marginTop="10dp" />
+    <Button
+        android:id="@+id/add_payment_save_button"
+        android:layout_below="@+id/add_payment_amount_value"
+        android:layout_centerHorizontal="true"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="35dp"
+        android:layout_width="wrap_content"
+        android:text="@string/save" />
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/save"
-            android:id="@+id/add_payment_save_button"
-            android:layout_below="@+id/add_payment_amount_value"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="35dp" />
-
-    </RelativeLayout>
-
-    <ListView android:id="@+id/add_payment_drawer_list_view"
-        android:layout_width="200dp"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:choiceMode="singleChoice"
-        android:divider="@android:color/transparent"
-        android:dividerHeight="0dp"
-        android:background="@color/wallet_bright_foreground_holo_dark"/>
-</android.support.v4.widget.DrawerLayout>
+</RelativeLayout>
