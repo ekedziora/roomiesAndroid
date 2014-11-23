@@ -99,6 +99,7 @@ public class EditGroupActivity extends BaseActivity {
             listAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_multiple_choice, availableMembersData);
             spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, membersData);
 
+            adminSpinner.setSelection(membersData.indexOf(editGroupData.getAdmin()));
             adminSpinner.setAdapter(spinnerAdapter);
             availableMembersList.setAdapter(listAdapter);
 
