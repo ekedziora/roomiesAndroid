@@ -4,9 +4,11 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -17,7 +19,6 @@ import java.math.BigDecimal;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import butterknife.OnClick;
 import pl.kedziora.emilek.json.objects.data.BudgetData;
 import pl.kedziora.emilek.roomies.R;
 import pl.kedziora.emilek.roomies.app.activity.AddPaymentActivity;
@@ -32,12 +33,15 @@ public class BudgetFragment extends Fragment {
     @InjectView(R.id.budget_payments_list)
     ListView paymentsList;
 
-    @InjectView(R.id.budget_add_payment_button)
-    Button addPaymentButton;
-
     private BaseActivity activity;
 
     public BudgetFragment() {
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -66,14 +70,24 @@ public class BudgetFragment extends Fragment {
     }
 
     @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.add_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == R.id.menu_add) {
+            startActivity(new Intent(activity, AddPaymentActivity.class));
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.reset(this);
-    }
-
-    @OnClick(R.id.budget_add_payment_button)
-    public void onAddPaymentButtonClicked() {
-        startActivity(new Intent(activity, AddPaymentActivity.class));
     }
 
 }

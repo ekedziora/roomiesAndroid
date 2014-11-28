@@ -2,8 +2,10 @@ package pl.kedziora.emilek.roomies.app.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.Window;
-import android.widget.Button;
 import android.widget.EditText;
 
 import java.io.UnsupportedEncodingException;
@@ -11,7 +13,6 @@ import java.math.BigDecimal;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import butterknife.OnClick;
 import eu.inmite.android.lib.validations.form.FormValidator;
 import eu.inmite.android.lib.validations.form.annotations.MaxNumberValue;
 import eu.inmite.android.lib.validations.form.annotations.MinNumberValue;
@@ -39,9 +40,6 @@ public class AddPaymentActivity extends BaseActivity {
     @InjectView(R.id.add_payment_amount_value)
     EditText amountValue;
 
-    @InjectView(R.id.add_payment_save_button)
-    Button saveButton;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
@@ -49,6 +47,22 @@ public class AddPaymentActivity extends BaseActivity {
         setContentView(R.layout.add_payment);
 
         ButterKnife.inject(this);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.save_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == R.id.menu_save) {
+            onSaveButtonClicked();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -61,8 +75,7 @@ public class AddPaymentActivity extends BaseActivity {
     @Override
     public void sendRequest() {}
 
-    @OnClick(R.id.add_payment_save_button)
-    public void onSaveButtonClicked() {
+    private void onSaveButtonClicked() {
         if(FormValidator.validate(this, new SimpleErrorPopupCallback(this))) {
             AddPaymentParams params = new AddPaymentParams(descriptionValue.getText().toString(),
                     new BigDecimal(amountValue.getText().toString()), new RequestParams(LoginActivity.accountName));

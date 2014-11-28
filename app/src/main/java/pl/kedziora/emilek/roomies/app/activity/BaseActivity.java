@@ -2,6 +2,7 @@ package pl.kedziora.emilek.roomies.app.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.view.MenuItem;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
@@ -34,4 +35,15 @@ public abstract class BaseActivity extends Activity {
             }
         }
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 }

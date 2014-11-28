@@ -2,9 +2,11 @@ package pl.kedziora.emilek.roomies.app.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.Window;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -14,7 +16,6 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import butterknife.OnClick;
 import butterknife.OnItemClick;
 import eu.inmite.android.lib.validations.form.FormValidator;
 import eu.inmite.android.lib.validations.form.annotations.NotEmpty;
@@ -46,9 +47,6 @@ public class EditGroupActivity extends BaseActivity {
     @InjectView(R.id.group_edit_admin_spinner)
     Spinner adminSpinner;
 
-    @InjectView(R.id.group_edit_button_save)
-    Button editGroupButton;
-
     private List<MemberToAddData> availableMembersData;
 
     private List<MemberToAddData> membersData;
@@ -69,6 +67,29 @@ public class EditGroupActivity extends BaseActivity {
         if(intent.getBooleanExtra(CoreUtils.SEND_REQUEST_KEY, false)) {
             sendRequest();
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.save_menu, menu);
+
+        if(data == null) {
+            menu.findItem(R.id.menu_save).setEnabled(false);
+        }
+        else {
+            menu.findItem(R.id.menu_save).setEnabled(true);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == R.id.menu_save) {
+            onSaveButtonClicked();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -95,7 +116,7 @@ public class EditGroupActivity extends BaseActivity {
             adminSpinner.setAdapter(spinnerAdapter);
             availableMembersList.setAdapter(listAdapter);
 
-            editGroupButton.setEnabled(true);
+            invalidateOptionsMenu();
             initMembersList();
         }
     }
@@ -105,7 +126,6 @@ public class EditGroupActivity extends BaseActivity {
         RequestParams params = new RequestParams(LoginActivity.accountName);
         String paramsJson = gson.toJson(params);
 
-        editGroupButton.setEnabled(false);
         try {
             RoomiesRestClient.postJson(this, "groups/editData", paramsJson);
         } catch (UnsupportedEncodingException e) {
@@ -120,8 +140,7 @@ public class EditGroupActivity extends BaseActivity {
         }
     }
 
-    @OnClick(R.id.group_edit_button_save)
-    public void onSaveButtonClicked() {
+    private void onSaveButtonClicked() {
         if(FormValidator.validate(this, new SimpleErrorPopupCallback(this))) {
             List<MemberToAddData> membersToAdd = CoreUtils.getMembersToAddFromListView(availableMembersList, availableMembersData);
             MemberToAddData admin = (MemberToAddData) adminSpinner.getSelectedItem();

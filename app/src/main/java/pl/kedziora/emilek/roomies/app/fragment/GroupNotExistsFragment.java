@@ -14,6 +14,7 @@ import butterknife.OnClick;
 import pl.kedziora.emilek.roomies.R;
 import pl.kedziora.emilek.roomies.app.activity.CreateGroupActivity;
 import pl.kedziora.emilek.roomies.app.activity.JoinGroupActivity;
+import pl.kedziora.emilek.roomies.app.utils.CoreUtils;
 
 public class GroupNotExistsFragment extends Fragment {
 
@@ -42,12 +43,16 @@ public class GroupNotExistsFragment extends Fragment {
 
     @OnClick(R.id.groups_join_button)
     public void joinButtonClicked() {
-        startActivity(new Intent(getActivity(), JoinGroupActivity.class));
+        Intent intent = new Intent(getActivity(), JoinGroupActivity.class);
+        intent.putExtra(CoreUtils.SEND_REQUEST_KEY, true);
+        startActivity(intent);
     }
 
     @OnClick(R.id.groups_create_button)
     public void createButtonClicked() {
-        startActivity(new Intent(getActivity(), CreateGroupActivity.class));
+        Intent intent = new Intent(getActivity(), CreateGroupActivity.class);
+        intent.putExtra(CoreUtils.SEND_REQUEST_KEY, true);
+        startActivity(intent);
     }
 
 }

@@ -98,5 +98,6 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:choiceMode="none"
-        android:fadeScrollbars="false"/>
+        android:fadeScrollbars="false"
+        android:layout_alignParentBottom="true" />
 </RelativeLayout>

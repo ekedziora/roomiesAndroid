@@ -2,9 +2,11 @@ package pl.kedziora.emilek.roomies.app.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.Window;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
@@ -17,7 +19,6 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import butterknife.OnClick;
 import eu.inmite.android.lib.validations.form.FormValidator;
 import eu.inmite.android.lib.validations.form.annotations.NotEmpty;
 import eu.inmite.android.lib.validations.form.callback.SimpleErrorPopupCallback;
@@ -44,9 +45,6 @@ public class CreateGroupActivity extends BaseActivity {
     @InjectView(R.id.group_create_users_list)
     ListView members;
 
-    @InjectView(R.id.group_create_button_create)
-    Button createGroup;
-
     private List<MemberToAddData> membersData;
 
     @Override
@@ -64,6 +62,29 @@ public class CreateGroupActivity extends BaseActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.save_menu, menu);
+
+        if(data == null) {
+            menu.findItem(R.id.menu_save).setEnabled(false);
+        }
+        else {
+            menu.findItem(R.id.menu_save).setEnabled(true);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == R.id.menu_save) {
+            onCreateButtonClicked();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public void proceedData() {
         if(data.isJsonNull()) {
             //after group creation, redirect to groups activity
@@ -77,7 +98,7 @@ public class CreateGroupActivity extends BaseActivity {
             membersData = gson.fromJson(data, listType);
 
             members.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_multiple_choice, membersData));
-            createGroup.setEnabled(true);
+            invalidateOptionsMenu();
         }
     }
 
@@ -86,7 +107,6 @@ public class CreateGroupActivity extends BaseActivity {
         RequestParams params = new RequestParams(LoginActivity.accountName);
         String paramsJson = gson.toJson(params);
 
-        createGroup.setEnabled(false);
         try {
             RoomiesRestClient.postJson(this, "groups/usersToAdd", paramsJson);
         } catch (UnsupportedEncodingException e) {
@@ -94,8 +114,7 @@ public class CreateGroupActivity extends BaseActivity {
         }
     }
 
-    @OnClick(R.id.group_create_button_create)
-    public void onCreateButtonClicked() {
+    private void onCreateButtonClicked() {
         if(FormValidator.validate(this, new SimpleErrorPopupCallback(this))) {
             List<MemberToAddData> membersToAdd = CoreUtils.getMembersToAddFromListView(members, membersData);
 

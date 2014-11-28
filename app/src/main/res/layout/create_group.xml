@@ -32,20 +32,12 @@
     <ListView
         android:id="@+id/group_create_users_list"
         android:layout_width="wrap_content"
-        android:layout_height="300dp"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/group_create_address_edit"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
         android:choiceMode="multipleChoice"
-        android:fadeScrollbars="false"/>
-
-    <Button
-        android:id="@+id/group_create_button_create"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/group_create_users_list"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:text="@string/save" />
+        android:fadeScrollbars="false"
+        android:layout_alignParentBottom="true" />
 
 </RelativeLayout>
