@@ -46,5 +46,11 @@
     <string name="amount_max_value_message">Amount must be smaller than 100000</string>
     <string name="amount_bad_format_message">Bad amount format</string>
     <string name="amount_hint">0.00</string>
+    <string name="cyclic_event">Cyclic event</string>
+    <string name="once_event">One-time event</string>
+    <string name="start_date">Start date</string>
+    <string name="end_date">End date</string>
+    <string name="switch_executor">Switch executor</string>
+    <string name="add_reminder">Add reminder</string>
 
 </resources>

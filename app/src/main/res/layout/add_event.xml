@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:paddingLeft="30dp"
+    android:paddingRight="30dp">
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal"
+        android:paddingTop="10dp"
+        android:id="@+id/add_event_type_radio_group">
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/add_event_once_radio_button"
+            android:checked="true"
+            android:text="@string/once_event" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:id="@+id/add_event_cyclic_radio_button"
+            android:text="@string/cyclic_event"
+            android:checked="false" />
+
+    </RadioGroup>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="date"
+        android:ems="10"
+        android:hint="@string/start_date"
+        android:id="@+id/add_event_start_date"
+        android:paddingTop="10dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_below="@+id/add_event_type_radio_group"
+        android:layout_alignLeft="@+id/add_event_type_radio_group"
+        android:layout_alignStart="@+id/add_event_type_radio_group" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="date"
+        android:ems="10"
+        android:hint="@string/end_date"
+        android:id="@+id/add_event_end_date"
+        android:paddingTop="10dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_below="@+id/add_event_start_date"
+        android:layout_centerHorizontal="true" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/switch_executor"
+        android:id="@+id/add_event_switch_executor_check_box"
+        android:paddingTop="10dp"
+        android:layout_below="@+id/add_event_end_date"
+        android:layout_centerHorizontal="true"
+        android:checked="false" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/add_reminder"
+        android:id="@+id/add_event_reminder_check_box"
+        android:paddingTop="10dp"
+        android:layout_below="@+id/add_event_switch_executor_check_box"
+        android:layout_centerHorizontal="true" />
+
+</RelativeLayout>
