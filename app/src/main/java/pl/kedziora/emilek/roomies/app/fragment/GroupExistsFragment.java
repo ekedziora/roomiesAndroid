@@ -20,8 +20,8 @@ import java.io.UnsupportedEncodingException;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
-import pl.kedziora.emilek.json.objects.MyGroupData;
-import pl.kedziora.emilek.json.objects.RequestParams;
+import pl.kedziora.emilek.json.objects.data.GroupData;
+import pl.kedziora.emilek.json.objects.params.RequestParams;
 import pl.kedziora.emilek.roomies.R;
 import pl.kedziora.emilek.roomies.app.activity.BaseActivity;
 import pl.kedziora.emilek.roomies.app.activity.EditGroupActivity;
@@ -56,7 +56,7 @@ public class GroupExistsFragment extends Fragment {
     @InjectView(R.id.groups_members_list_view)
     ListView membersListView;
 
-    private MyGroupData groupData;
+    private GroupData groupData;
 
     private BaseActivity activity;
 
@@ -71,7 +71,7 @@ public class GroupExistsFragment extends Fragment {
         activity = (BaseActivity) getActivity();
 
         JsonElement data = activity.getData();
-        groupData = new Gson().fromJson(data, MyGroupData.class);
+        groupData = new Gson().fromJson(data, GroupData.class);
 
         name.setText(groupData.getName());
         address.setText(groupData.getAddress());

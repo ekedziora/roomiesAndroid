@@ -53,8 +53,13 @@ public class AddPaymentActivity extends BaseActivity {
 
     @Override
     public void proceedData() {
-        startActivity(new Intent(this, BudgetActivity.class));
+        Intent intent = new Intent(this, BudgetActivity.class);
+        intent.putExtra(CoreUtils.SEND_REQUEST_KEY, true);
+        startActivity(intent);
     }
+
+    @Override
+    public void sendRequest() {}
 
     @OnClick(R.id.add_payment_save_button)
     public void onSaveButtonClicked() {

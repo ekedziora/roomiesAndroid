@@ -11,16 +11,16 @@ import com.koushikdutta.ion.Ion;
 
 import java.util.List;
 
-import pl.kedziora.emilek.json.objects.GroupMember;
+import pl.kedziora.emilek.json.objects.data.GroupMemberData;
 import pl.kedziora.emilek.roomies.R;
 
 public class GroupMembersAdapter extends BaseAdapter {
 
     private LayoutInflater inflater;
 
-    private List<GroupMember> members;
+    private List<GroupMemberData> members;
 
-    public GroupMembersAdapter(LayoutInflater inflater, List<GroupMember> members) {
+    public GroupMembersAdapter(LayoutInflater inflater, List<GroupMemberData> members) {
         this.inflater = inflater;
         this.members = members;
     }
@@ -47,7 +47,7 @@ public class GroupMembersAdapter extends BaseAdapter {
         final ImageView icon = (ImageView) item.findViewById(android.R.id.icon);
         TextView text = (TextView) item.findViewById(android.R.id.text1);
 
-        GroupMember member = members.get(position);
+        GroupMemberData member = members.get(position);
 
         text.setText(member.getName());
         Ion.with(icon)

@@ -1,9 +1,12 @@
 package pl.kedziora.emilek.roomies.app.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
+
+import pl.kedziora.emilek.roomies.app.tasks.GetUserAuthCodeTask;
 
 public abstract class BaseActivity extends Activity {
 
@@ -21,4 +24,14 @@ public abstract class BaseActivity extends Activity {
 
     public abstract void proceedData();
 
+    public abstract void sendRequest();
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == GetUserAuthCodeTask.REQUEST_AUTHORIZATION_CODE) {
+            if(resultCode == RESULT_OK) {
+                sendRequest();
+            }
+        }
+    }
 }

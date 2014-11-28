@@ -20,6 +20,8 @@ public class CoreUtils {
             + ":api_scope:https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email " +
             "https://www.googleapis.com/auth/calendar";
 
+    public static final String SEND_REQUEST_KEY = "sendRequest";
+
     private static final String CORE_UTILS_TAG = "CORE UTILS";
 
     public static void dumpIntent(Intent i) {

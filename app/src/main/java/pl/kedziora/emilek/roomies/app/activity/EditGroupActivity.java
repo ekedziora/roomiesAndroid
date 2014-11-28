@@ -64,20 +64,10 @@ public class EditGroupActivity extends BaseActivity {
         setContentView(R.layout.edit_group);
 
         ButterKnife.inject(this);
-    }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        RequestParams params = new RequestParams(LoginActivity.accountName);
-        String paramsJson = gson.toJson(params);
-
-        editGroupButton.setEnabled(false);
-        try {
-            RoomiesRestClient.postJson(this, "groups/editData", paramsJson);
-        } catch (UnsupportedEncodingException e) {
-            logWebServiceConnectionError(EDIT_GROUP_ACTIVITY_TAG, e);
+        Intent intent = getIntent();
+        if(intent.getBooleanExtra(CoreUtils.SEND_REQUEST_KEY, false)) {
+            sendRequest();
         }
     }
 
@@ -85,7 +75,9 @@ public class EditGroupActivity extends BaseActivity {
     public void proceedData() {
         if(data.isJsonNull()) {
             //after group edit, redirect to groups activity
-            startActivity(new Intent(this, GroupActivity.class));
+            Intent intent = new Intent(this, GroupActivity.class);
+            intent.putExtra(CoreUtils.SEND_REQUEST_KEY, true);
+            startActivity(intent);
         }
         else {
             EditGroupData editGroupData = gson.fromJson(data, EditGroupData.class);
@@ -105,6 +97,19 @@ public class EditGroupActivity extends BaseActivity {
 
             editGroupButton.setEnabled(true);
             initMembersList();
+        }
+    }
+
+    @Override
+    public void sendRequest() {
+        RequestParams params = new RequestParams(LoginActivity.accountName);
+        String paramsJson = gson.toJson(params);
+
+        editGroupButton.setEnabled(false);
+        try {
+            RoomiesRestClient.postJson(this, "groups/editData", paramsJson);
+        } catch (UnsupportedEncodingException e) {
+            logWebServiceConnectionError(EDIT_GROUP_ACTIVITY_TAG, e);
         }
     }
 

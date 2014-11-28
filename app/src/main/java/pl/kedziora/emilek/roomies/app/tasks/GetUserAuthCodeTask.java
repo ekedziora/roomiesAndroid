@@ -16,7 +16,7 @@ import org.apache.http.entity.StringEntity;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
-import pl.kedziora.emilek.json.objects.AuthCodeRequestParams;
+import pl.kedziora.emilek.json.objects.params.AuthCodeRequestParams;
 import pl.kedziora.emilek.roomies.app.activity.BaseActivity;
 import pl.kedziora.emilek.roomies.app.activity.LoginActivity;
 import pl.kedziora.emilek.roomies.app.client.RoomiesRestClient;
@@ -31,7 +31,7 @@ public class GetUserAuthCodeTask extends AsyncTask<Void, Void, String> {
     public static final String AUTH_CODE_TAG = "AUTH CODE";
     public static final String AUTH_CODE_EXCEPTION_MESSAGE = "Exception while getting auth code";
 
-    private static final int REQUEST_AUTHORIZATION_CODE = 1002;
+    public static final int REQUEST_AUTHORIZATION_CODE = 1002;
 
     private BaseActivity activity;
     private String scope;

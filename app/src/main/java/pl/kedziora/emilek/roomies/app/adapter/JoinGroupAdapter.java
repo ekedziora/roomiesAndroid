@@ -14,7 +14,7 @@ import com.google.gson.Gson;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
-import pl.kedziora.emilek.json.objects.JoinGroupData;
+import pl.kedziora.emilek.json.objects.data.JoinGroupData;
 import pl.kedziora.emilek.json.objects.params.JoinGroupParams;
 import pl.kedziora.emilek.json.objects.params.RequestParams;
 import pl.kedziora.emilek.roomies.app.activity.BaseActivity;

@@ -13,8 +13,8 @@ import java.io.UnsupportedEncodingException;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import pl.kedziora.emilek.json.objects.RequestParams;
 import pl.kedziora.emilek.json.objects.data.BudgetData;
+import pl.kedziora.emilek.json.objects.params.RequestParams;
 import pl.kedziora.emilek.roomies.R;
 import pl.kedziora.emilek.roomies.app.adapter.MenuItemsAdapter;
 import pl.kedziora.emilek.roomies.app.client.RoomiesRestClient;
@@ -47,19 +47,12 @@ public class BudgetActivity extends BaseActivity {
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout,
                 R.drawable.ic_navigation_drawer, R.string.drawerOpened, R.string.drawerClosed);
         drawerLayout.setDrawerListener(drawerToggle);
-    }
+        getActionBar().setHomeButtonEnabled(true);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        RequestParams params = new RequestParams(LoginActivity.accountName);
-        String paramsJson = gson.toJson(params);
-
-        try {
-            RoomiesRestClient.postJson(this, "payments/getData", paramsJson);
-        } catch (UnsupportedEncodingException e) {
-            CoreUtils.logWebServiceConnectionError(BUDGET_ACTIVITY_TAG, e);
+        Intent intent = getIntent();
+        if (intent.getBooleanExtra(CoreUtils.SEND_REQUEST_KEY, false)) {
+            sendRequest();
         }
     }
 
@@ -86,7 +79,8 @@ public class BudgetActivity extends BaseActivity {
     @Override
     public void proceedData() {
         if(data.isJsonNull()) {
-            startActivity(new Intent(this, BudgetActivity.class));
+            // after payment delete, send request
+            sendRequest();
         }
         else {
             BudgetData budgetData = gson.fromJson(data, BudgetData.class);
@@ -99,6 +93,18 @@ public class BudgetActivity extends BaseActivity {
                 BudgetFragment budgetFragment = new BudgetFragment();
                 getFragmentManager().beginTransaction().replace(R.id.budget_content_frame, budgetFragment).commit();
             }
+        }
+    }
+
+    @Override
+    public void sendRequest() {
+        RequestParams params = new RequestParams(LoginActivity.accountName);
+        String paramsJson = gson.toJson(params);
+
+        try {
+            RoomiesRestClient.postJson(this, "payments/getData", paramsJson);
+        } catch (UnsupportedEncodingException e) {
+            CoreUtils.logWebServiceConnectionError(BUDGET_ACTIVITY_TAG, e);
         }
     }
 

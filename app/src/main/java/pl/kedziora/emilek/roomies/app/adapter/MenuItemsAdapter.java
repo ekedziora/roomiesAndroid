@@ -14,6 +14,7 @@ import pl.kedziora.emilek.roomies.app.activity.AccountActivity;
 import pl.kedziora.emilek.roomies.app.activity.BudgetActivity;
 import pl.kedziora.emilek.roomies.app.activity.DashboardActivity;
 import pl.kedziora.emilek.roomies.app.activity.GroupActivity;
+import pl.kedziora.emilek.roomies.app.utils.CoreUtils;
 import pl.kedziora.emilek.roomies.app.utils.MenuUtils;
 
 public class MenuItemsAdapter extends BaseAdapter {
@@ -57,16 +58,24 @@ public class MenuItemsAdapter extends BaseAdapter {
             public void onClick(View v) {
                 MenuUtils.MenuItem item = (MenuUtils.MenuItem) getItem(position);
                 if(MenuUtils.MenuItem.DASHBOARD.equals(item)) {
-                    context.startActivity(new Intent(context, DashboardActivity.class));
+                    Intent intent = new Intent(context, DashboardActivity.class);
+                    intent.putExtra(CoreUtils.SEND_REQUEST_KEY, true);
+                    context.startActivity(intent);
                 }
                 else if(MenuUtils.MenuItem.MY_ACCOUNT.equals(item)) {
-                    context.startActivity(new Intent(context, AccountActivity.class));
+                    Intent intent = new Intent(context, AccountActivity.class);
+                    intent.putExtra(CoreUtils.SEND_REQUEST_KEY, true);
+                    context.startActivity(intent);
                 }
                 else if(MenuUtils.MenuItem.GROUPS.equals(item)) {
-                    context.startActivity(new Intent(context, GroupActivity.class));
+                    Intent intent = new Intent(context, GroupActivity.class);
+                    intent.putExtra(CoreUtils.SEND_REQUEST_KEY, true);
+                    context.startActivity(intent);
                 }
                 else if(MenuUtils.MenuItem.BUDGET.equals(item)) {
-                    context.startActivity(new Intent(context, BudgetActivity.class));
+                    Intent intent = new Intent(context, BudgetActivity.class);
+                    intent.putExtra(CoreUtils.SEND_REQUEST_KEY, true);
+                    context.startActivity(intent);
                 }
             }
         });

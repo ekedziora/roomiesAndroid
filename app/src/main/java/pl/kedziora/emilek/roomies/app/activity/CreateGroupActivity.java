@@ -56,20 +56,10 @@ public class CreateGroupActivity extends BaseActivity {
         setContentView(R.layout.create_group);
 
         ButterKnife.inject(this);
-    }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        RequestParams params = new RequestParams(LoginActivity.accountName);
-        String paramsJson = gson.toJson(params);
-
-        createGroup.setEnabled(false);
-        try {
-            RoomiesRestClient.postJson(this, "groups/usersToAdd", paramsJson);
-        } catch (UnsupportedEncodingException e) {
-            logWebServiceConnectionError(CREATE_GROUP_ACTIVITY_TAG, e);
+        Intent intent = getIntent();
+        if(intent.getBooleanExtra(CoreUtils.SEND_REQUEST_KEY, false)) {
+            sendRequest();
         }
     }
 
@@ -77,7 +67,9 @@ public class CreateGroupActivity extends BaseActivity {
     public void proceedData() {
         if(data.isJsonNull()) {
             //after group creation, redirect to groups activity
-            startActivity(new Intent(this, GroupActivity.class));
+            Intent intent = new Intent(this, GroupActivity.class);
+            intent.putExtra(CoreUtils.SEND_REQUEST_KEY, true);
+            startActivity(intent);
         }
         else {
             Type listType = new TypeToken<ArrayList<MemberToAddData>>() {
@@ -86,6 +78,19 @@ public class CreateGroupActivity extends BaseActivity {
 
             members.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_multiple_choice, membersData));
             createGroup.setEnabled(true);
+        }
+    }
+
+    @Override
+    public void sendRequest() {
+        RequestParams params = new RequestParams(LoginActivity.accountName);
+        String paramsJson = gson.toJson(params);
+
+        createGroup.setEnabled(false);
+        try {
+            RoomiesRestClient.postJson(this, "groups/usersToAdd", paramsJson);
+        } catch (UnsupportedEncodingException e) {
+            logWebServiceConnectionError(CREATE_GROUP_ACTIVITY_TAG, e);
         }
     }
 

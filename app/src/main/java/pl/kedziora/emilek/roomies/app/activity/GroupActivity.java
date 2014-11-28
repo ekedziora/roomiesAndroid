@@ -1,5 +1,6 @@
 package pl.kedziora.emilek.roomies.app.activity;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -10,12 +11,13 @@ import android.widget.ListView;
 
 import java.io.UnsupportedEncodingException;
 
-import pl.kedziora.emilek.json.objects.RequestParams;
+import pl.kedziora.emilek.json.objects.params.RequestParams;
 import pl.kedziora.emilek.roomies.R;
 import pl.kedziora.emilek.roomies.app.adapter.MenuItemsAdapter;
 import pl.kedziora.emilek.roomies.app.client.RoomiesRestClient;
 import pl.kedziora.emilek.roomies.app.fragment.GroupExistsFragment;
 import pl.kedziora.emilek.roomies.app.fragment.GroupNotExistsFragment;
+import pl.kedziora.emilek.roomies.app.utils.CoreUtils;
 
 import static pl.kedziora.emilek.roomies.app.utils.CoreUtils.logWebServiceConnectionError;
 
@@ -38,17 +40,12 @@ public class GroupActivity extends BaseActivity {
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout,
                 R.drawable.ic_navigation_drawer, R.string.drawerOpened, R.string.drawerClosed);
         drawerLayout.setDrawerListener(drawerToggle);
-    }
+        getActionBar().setHomeButtonEnabled(true);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        String requestParamsJson = gson.toJson(new RequestParams(LoginActivity.accountName));
-        try {
-            RoomiesRestClient.postJson(this, "groups/user", requestParamsJson);
-        } catch (UnsupportedEncodingException e) {
-            logWebServiceConnectionError(GROUP_ACTIVITY_TAG, e);
+        Intent intent = getIntent();
+        if (intent.getBooleanExtra(CoreUtils.SEND_REQUEST_KEY, false)) {
+            sendRequest();
         }
     }
 
@@ -81,6 +78,17 @@ public class GroupActivity extends BaseActivity {
         else {
             GroupExistsFragment existsFragment = new GroupExistsFragment();
             getFragmentManager().beginTransaction().replace(R.id.groups_content_frame, existsFragment).commit();
+        }
+    }
+
+    @Override
+    public void sendRequest() {
+        String requestParamsJson = gson.toJson(new RequestParams(LoginActivity.accountName));
+
+        try {
+            RoomiesRestClient.postJson(this, "groups/user", requestParamsJson);
+        } catch (UnsupportedEncodingException e) {
+            logWebServiceConnectionError(GROUP_ACTIVITY_TAG, e);
         }
     }
 

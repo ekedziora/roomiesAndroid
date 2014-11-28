@@ -1,7 +1,5 @@
 package pl.kedziora.emilek.roomies.app.handler;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.util.Log;
 
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -9,6 +7,7 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import org.apache.http.Header;
 import org.apache.http.HttpStatus;
 
+import pl.kedziora.emilek.roomies.app.activity.BaseActivity;
 import pl.kedziora.emilek.roomies.app.utils.AlertDialogUtils;
 import pl.kedziora.emilek.roomies.app.utils.ErrorMessages;
 
@@ -16,16 +15,16 @@ public class AuthCodeRequestResponseHandler extends AsyncHttpResponseHandler {
 
     private static final String AUTH_CODE_REQUEST_RESPONSE_HANDLER_TAG = "AUTH CODE REQUEST RESPONSE HANDLER";
 
-    private Activity activity;
+    private BaseActivity activity;
 
-    public AuthCodeRequestResponseHandler(Activity activity) {
+    public AuthCodeRequestResponseHandler(BaseActivity activity) {
         super();
         this.activity = activity;
     }
 
     @Override
     public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-        activity.startActivity(new Intent(activity, activity.getClass()));
+        activity.sendRequest();
     }
 
     @Override
