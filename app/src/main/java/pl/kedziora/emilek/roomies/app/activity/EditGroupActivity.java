@@ -18,6 +18,8 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnItemClick;
 import eu.inmite.android.lib.validations.form.FormValidator;
+import eu.inmite.android.lib.validations.form.adapters.SpinnerAdapter;
+import eu.inmite.android.lib.validations.form.annotations.Custom;
 import eu.inmite.android.lib.validations.form.annotations.NotEmpty;
 import eu.inmite.android.lib.validations.form.callback.SimpleErrorPopupCallback;
 import pl.kedziora.emilek.json.objects.data.EditGroupData;
@@ -27,6 +29,9 @@ import pl.kedziora.emilek.json.objects.params.RequestParams;
 import pl.kedziora.emilek.roomies.R;
 import pl.kedziora.emilek.roomies.app.client.RoomiesRestClient;
 import pl.kedziora.emilek.roomies.app.utils.CoreUtils;
+import pl.kedziora.emilek.roomies.app.validation.ListNotEmptyValidator;
+import pl.kedziora.emilek.roomies.app.validation.ListViewCheckedAdapter;
+import pl.kedziora.emilek.roomies.app.validation.SpinnerNotEmptyValidator;
 
 import static pl.kedziora.emilek.roomies.app.utils.CoreUtils.logWebServiceConnectionError;
 
@@ -42,9 +47,11 @@ public class EditGroupActivity extends BaseActivity {
     EditText address;
 
     @InjectView(R.id.group_edit_users_list)
+    @Custom(value = ListNotEmptyValidator.class, messageId = R.string.emptyListMessage)
     ListView availableMembersList;
 
     @InjectView(R.id.group_edit_admin_spinner)
+    @Custom(value = SpinnerNotEmptyValidator.class, messageId = R.string.emptyFieldMessage)
     Spinner adminSpinner;
 
     private List<MemberToAddData> availableMembersData;
@@ -62,6 +69,8 @@ public class EditGroupActivity extends BaseActivity {
         setContentView(R.layout.edit_group);
 
         ButterKnife.inject(this);
+        FormValidator.registerViewAdapter(ListView.class, ListViewCheckedAdapter.class);
+        FormValidator.registerViewAdapter(Spinner.class, SpinnerAdapter.class);
 
         Intent intent = getIntent();
         if(intent.getBooleanExtra(CoreUtils.SEND_REQUEST_KEY, false)) {

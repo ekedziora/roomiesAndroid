@@ -77,6 +77,9 @@ public class MenuItemsAdapter extends BaseAdapter {
                     intent.putExtra(CoreUtils.SEND_REQUEST_KEY, true);
                     context.startActivity(intent);
                 }
+                else if(MenuUtils.MenuItem.EVENTS.equals(item)) {
+                    //start activity
+                }
             }
         });
 
