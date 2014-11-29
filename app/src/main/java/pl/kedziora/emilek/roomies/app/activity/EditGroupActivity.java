@@ -18,7 +18,6 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnItemClick;
 import eu.inmite.android.lib.validations.form.FormValidator;
-import eu.inmite.android.lib.validations.form.adapters.SpinnerAdapter;
 import eu.inmite.android.lib.validations.form.annotations.Custom;
 import eu.inmite.android.lib.validations.form.annotations.NotEmpty;
 import eu.inmite.android.lib.validations.form.callback.SimpleErrorPopupCallback;
@@ -70,7 +69,6 @@ public class EditGroupActivity extends BaseActivity {
 
         ButterKnife.inject(this);
         FormValidator.registerViewAdapter(ListView.class, ListViewCheckedAdapter.class);
-        FormValidator.registerViewAdapter(Spinner.class, SpinnerAdapter.class);
 
         Intent intent = getIntent();
         if(intent.getBooleanExtra(CoreUtils.SEND_REQUEST_KEY, false)) {

@@ -46,12 +46,22 @@
     <string name="amount_max_value_message">Amount must be smaller than 100000</string>
     <string name="amount_bad_format_message">Bad amount format</string>
     <string name="amount_hint">0.00</string>
-    <string name="emptyListMessage">List can\'t be empty</string>
+    <string name="emptyListMessage">You have to check at least one element from list</string>
     <string name="cyclic_event">Cyclic event</string>
     <string name="once_event">One-time event</string>
     <string name="start_date">Start date</string>
     <string name="end_date">End date</string>
     <string name="switch_executor">Switch executor</string>
     <string name="add_reminder">Add reminder</string>
+    <string name="before">before</string>
+    <string name="with_punishment">With punishment</string>
+    <string name="with_confirmation">With confirmation</string>
+    <string name="title_activity_events">Events</string>
+    <string name="title_activity_add_event">Add event</string>
+    <string name="change">Change</string>
+    <string name="repeat_every">Repeat every</string>
+    <string name="date_today_or_future_message">Date should be today or future</string>
+    <string name="min_interval_value_message">Interval number should be greater than 0</string>
+    <string name="max_interval_value_message">Interval number should be less than 1000</string>
 
 </resources>

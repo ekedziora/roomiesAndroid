@@ -62,6 +62,8 @@ public class AccountActivity extends BaseActivity {
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout,
                 R.drawable.ic_navigation_drawer, R.string.drawerOpened, R.string.drawerClosed);
         drawerLayout.setDrawerListener(drawerToggle);
+        getActionBar().setHomeButtonEnabled(true);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
 
         Intent intent = getIntent();
         if(intent.getBooleanExtra(CoreUtils.SEND_REQUEST_KEY, false)) {

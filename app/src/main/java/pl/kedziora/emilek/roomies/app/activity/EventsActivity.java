@@ -99,4 +99,10 @@ public class EventsActivity extends BaseActivity {
         }
     }
 
+    @Override
+    public void sendRequest() {
+
+
+    }
+
 }

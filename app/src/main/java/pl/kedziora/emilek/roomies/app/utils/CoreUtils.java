@@ -8,6 +8,8 @@ import android.widget.ListView;
 
 import com.google.common.collect.Lists;
 
+import org.joda.time.LocalDate;
+
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -51,6 +53,11 @@ public class CoreUtils {
             }
         }
         return membersToAdd;
+    }
+
+    public static String formatDatePickerDate(int year, int month, int day) {
+        LocalDate date = new LocalDate(year, month + 1, day);
+        return date.toString();
     }
 
 }

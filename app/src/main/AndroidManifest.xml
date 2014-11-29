@@ -86,11 +86,29 @@
         </activity>
         <activity
             android:name=".app.activity.AddPaymentActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_add_payment"
-            android:parentActivityName=".app.activity.BudgetActivity" >
+            android:parentActivityName=".app.activity.BudgetActivity"
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="pl.kedziora.emilek.roomies.app.activity.BudgetActivity" />
+        </activity>
+        <activity
+            android:name=".app.activity.EventsActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_events"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".app.activity.AddEventActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_add_event"
+            android:parentActivityName=".app.activity.EventsActivity"
+            android:screenOrientation="portrait" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="pl.kedziora.emilek.roomies.app.activity.EventsActivity" />
         </activity>
     </application>
 
