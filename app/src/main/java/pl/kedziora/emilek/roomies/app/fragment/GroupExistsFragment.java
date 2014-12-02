@@ -140,7 +140,9 @@ public class GroupExistsFragment extends Fragment {
 
     @OnClick(R.id.groups_edit_button)
     public void onEditButtonClicked() {
-        startActivity(new Intent(activity, EditGroupActivity.class));
+        Intent intent = new Intent(activity, EditGroupActivity.class);
+        intent.putExtra(CoreUtils.SEND_REQUEST_KEY, true);
+        startActivity(intent);
     }
 
 }

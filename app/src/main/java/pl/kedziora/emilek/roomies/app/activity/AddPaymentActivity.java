@@ -70,6 +70,7 @@ public class AddPaymentActivity extends BaseActivity {
         Intent intent = new Intent(this, BudgetActivity.class);
         intent.putExtra(CoreUtils.SEND_REQUEST_KEY, true);
         startActivity(intent);
+        finish();
     }
 
     @Override

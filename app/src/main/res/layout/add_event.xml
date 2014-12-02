@@ -8,7 +8,8 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:id="@+id/add_event_scroll_view">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -217,21 +218,11 @@
                 android:inputType="numberDecimal"
                 android:ems="10" />
 
-            <CheckBox
-                android:id="@+id/add_event_confirmation_check_box"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/add_event_punishment_amount"
-                android:layout_centerHorizontal="true"
-                android:checked="false"
-                android:layout_marginTop="20dp"
-                android:text="@string/with_confirmation" />
-
             <ListView
                 android:id="@+id/add_event_members_list"
                 android:layout_width="wrap_content"
                 android:layout_height="300dp"
-                android:layout_below="@+id/add_event_confirmation_check_box"
+                android:layout_below="@+id/add_event_punishment_amount"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="20dp"
                 android:choiceMode="multipleChoice"

@@ -106,6 +106,7 @@ public class EditGroupActivity extends BaseActivity {
             Intent intent = new Intent(this, GroupActivity.class);
             intent.putExtra(CoreUtils.SEND_REQUEST_KEY, true);
             startActivity(intent);
+            finish();
         }
         else {
             EditGroupData editGroupData = gson.fromJson(data, EditGroupData.class);

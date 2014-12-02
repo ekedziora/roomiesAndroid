@@ -14,9 +14,12 @@ import java.io.UnsupportedEncodingException;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import pl.kedziora.emilek.json.objects.RequestParams;
+import pl.kedziora.emilek.json.objects.data.EventData;
 import pl.kedziora.emilek.roomies.R;
 import pl.kedziora.emilek.roomies.app.adapter.MenuItemsAdapter;
 import pl.kedziora.emilek.roomies.app.client.RoomiesRestClient;
+import pl.kedziora.emilek.roomies.app.fragment.EventsFragment;
+import pl.kedziora.emilek.roomies.app.fragment.GroupNotExistsFragment;
 import pl.kedziora.emilek.roomies.app.utils.CoreUtils;
 
 public class EventsActivity extends BaseActivity {
@@ -44,19 +47,12 @@ public class EventsActivity extends BaseActivity {
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout,
                 R.drawable.ic_navigation_drawer, R.string.drawerOpened, R.string.drawerClosed);
         drawerLayout.setDrawerListener(drawerToggle);
-    }
+        getActionBar().setHomeButtonEnabled(true);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        RequestParams params = new RequestParams(LoginActivity.accountName);
-        String paramsJson = gson.toJson(params);
-
-        try {
-            RoomiesRestClient.postJson(this, "payments/getData", paramsJson);
-        } catch (UnsupportedEncodingException e) {
-            CoreUtils.logWebServiceConnectionError(EVENTS_ACTIVITY_TAG, e);
+        Intent intent = getIntent();
+        if (intent.getBooleanExtra(CoreUtils.SEND_REQUEST_KEY, false)) {
+            sendRequest();
         }
     }
 
@@ -83,26 +79,33 @@ public class EventsActivity extends BaseActivity {
     @Override
     public void proceedData() {
         if(data.isJsonNull()) {
-            startActivity(new Intent(this, EventsActivity.class));
+            //after event add, send request
+            sendRequest();
         }
         else {
-            /*BudgetData budgetData = gson.fromJson(data, BudgetData.class);
+            EventData eventData = gson.fromJson(data, EventData.class);
 
-            if(budgetData.getCurrentUserId() == null) {
+            if(eventData.getEvents() == null) {
                 GroupNotExistsFragment notExistsFragment = new GroupNotExistsFragment();
-                getFragmentManager().beginTransaction().replace(R.id.budget_content_frame, notExistsFragment).commit();
+                getFragmentManager().beginTransaction().replace(R.id.events_content_frame, notExistsFragment).commit();
             }
             else {
-                BudgetFragment budgetFragment = new BudgetFragment();
-                getFragmentManager().beginTransaction().replace(R.id.budget_content_frame, budgetFragment).commit();
-            }*/
+                EventsFragment eventsFragment = new EventsFragment();
+                getFragmentManager().beginTransaction().replace(R.id.events_content_frame, eventsFragment).commit();
+            }
         }
     }
 
     @Override
     public void sendRequest() {
+        RequestParams params = new RequestParams(LoginActivity.accountName);
+        String paramsJson = gson.toJson(params);
 
-
+        try {
+            RoomiesRestClient.postJson(this, "events/getData", paramsJson);
+        } catch (UnsupportedEncodingException e) {
+            CoreUtils.logWebServiceConnectionError(EVENTS_ACTIVITY_TAG, e);
+        }
     }
 
 }

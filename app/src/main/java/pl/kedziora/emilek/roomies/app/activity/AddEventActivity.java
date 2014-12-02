@@ -15,11 +15,13 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioButton;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.LocalDate;
 
+import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.List;
@@ -33,19 +35,29 @@ import eu.inmite.android.lib.validations.form.FormValidator;
 import eu.inmite.android.lib.validations.form.annotations.Custom;
 import eu.inmite.android.lib.validations.form.annotations.NotEmpty;
 import eu.inmite.android.lib.validations.form.callback.SimpleErrorPopupCallback;
-import pl.kedziora.emilek.json.objects.MemberToAddData;
+import pl.kedziora.emilek.json.objects.data.AddEventData;
+import pl.kedziora.emilek.json.objects.data.MemberToAddData;
+import pl.kedziora.emilek.json.objects.enums.EventType;
 import pl.kedziora.emilek.json.objects.enums.Interval;
 import pl.kedziora.emilek.json.objects.enums.PunishmentType;
 import pl.kedziora.emilek.json.objects.enums.ReminderType;
+import pl.kedziora.emilek.json.objects.params.AddEventParams;
+import pl.kedziora.emilek.json.objects.params.RequestParams;
 import pl.kedziora.emilek.roomies.R;
+import pl.kedziora.emilek.roomies.app.client.RoomiesRestClient;
 import pl.kedziora.emilek.roomies.app.utils.CoreUtils;
 import pl.kedziora.emilek.roomies.app.validation.DateTodayOrFutureValidator;
 import pl.kedziora.emilek.roomies.app.validation.ListNotEmptyValidator;
 import pl.kedziora.emilek.roomies.app.validation.ListViewCheckedAdapter;
 
+import static pl.kedziora.emilek.roomies.app.utils.CoreUtils.logWebServiceConnectionError;
+
 public class AddEventActivity extends BaseActivity {
 
     private static final String ADD_EVENT_ACTIVITY_TAG = "ADD EVENT ACTIVITY";
+
+    @InjectView(R.id.add_event_scroll_view)
+    ScrollView scrollView;
 
     @InjectView(R.id.add_event_once_radio_button)
     RadioButton eventTypeOneTime;
@@ -59,44 +71,41 @@ public class AddEventActivity extends BaseActivity {
 
     @InjectView(R.id.add_event_start_date)
     @Custom(value = DateTodayOrFutureValidator.class, messageId = R.string.date_today_or_future_message, order = 2)
-    EditText startDate;
+    EditText startDateEdit;
 
     @InjectView(R.id.add_event_end_date)
     @Custom(value = DateTodayOrFutureValidator.class, messageId = R.string.date_today_or_future_message, order = 2)
-    EditText endDate;
+    EditText endDateEdit;
 
     @InjectView(R.id.add_event_interval_number)
-    EditText intervalNumber;
+    EditText intervalNumberEdit;
 
     @InjectView(R.id.add_event_interval_spinner)
     Spinner intervalSpinner;
 
     @InjectView(R.id.add_event_switch_executor_check_box)
-    CheckBox switchExecutor;
+    CheckBox switchExecutorCheck;
 
     @InjectView(R.id.add_event_reminder_check_box)
-    CheckBox addReminder;
+    CheckBox addReminderCheck;
 
     @InjectView(R.id.add_event_reminder_type_spinner)
-    Spinner reminderType;
+    Spinner reminderTypeSpinner;
 
     @InjectView(R.id.add_event_reminder_interval_number)
-    EditText reminderNumber;
+    EditText reminderNumberEdit;
 
     @InjectView(R.id.add_event_reminder_interval_spinner)
-    Spinner reminderInterval;
+    Spinner reminderIntervalSpinner;
 
     @InjectView(R.id.add_event_punishment_check_box)
-    CheckBox withPunishment;
+    CheckBox withPunishmentCheck;
 
     @InjectView(R.id.add_event_punishment_spinner)
-    Spinner punishmentType;
+    Spinner punishmentTypeSpinner;
 
     @InjectView(R.id.add_event_punishment_amount)
-    EditText punishmentAmount;
-
-    @InjectView(R.id.add_event_confirmation_check_box)
-    CheckBox withConfirmation;
+    EditText punishmentAmountEdit;
 
     @InjectView(R.id.add_event_members_list)
     @Custom(value = ListNotEmptyValidator.class, messageId = R.string.emptyListMessage, order = 3)
@@ -133,10 +142,10 @@ public class AddEventActivity extends BaseActivity {
     }
 
     private void initAdapters() {
-        reminderType.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, ReminderType.values()));
+        reminderTypeSpinner.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, ReminderType.values()));
         intervalSpinner.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, Interval.values()));
-        reminderInterval.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, Interval.values()));
-        punishmentType.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, PunishmentType.values()));
+        reminderIntervalSpinner.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, Interval.values()));
+        punishmentTypeSpinner.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, PunishmentType.values()));
     }
 
     private void initDatePicker() {
@@ -145,19 +154,41 @@ public class AddEventActivity extends BaseActivity {
         int month = c.get(Calendar.MONTH);
         int day = c.get(Calendar.DAY_OF_MONTH);
 
-        startDate.setText(CoreUtils.formatDatePickerDate(year, month, day));
-        endDate.setText(CoreUtils.formatDatePickerDate(year, month, day));
+        startDateEdit.setText(CoreUtils.formatDatePickerDate(year, month, day));
+        endDateEdit.setText(CoreUtils.formatDatePickerDate(year, month, day));
     }
 
 
     @Override
     public void proceedData() {
+        if(data.isJsonNull()) {
+            Intent intent = new Intent(this, EventsActivity.class);
+            intent.putExtra(CoreUtils.SEND_REQUEST_KEY, true);
+            startActivity(intent);
+        }
+        else {
+            AddEventData addEventData = gson.fromJson(data, AddEventData.class);
 
+            members = addEventData.getMembers();
+            ArrayAdapter<MemberToAddData> membersAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_multiple_choice, members);
+
+            membersListView.setAdapter(membersAdapter);
+            for (int i = 0; i < membersAdapter.getCount(); i++) {
+                membersListView.setItemChecked(i, true);
+            }
+        }
     }
 
     @Override
     public void sendRequest() {
+        RequestParams params = new RequestParams(LoginActivity.accountName);
+        String paramsJson = gson.toJson(params);
 
+        try {
+            RoomiesRestClient.postJson(this, "events/addData", paramsJson);
+        } catch (UnsupportedEncodingException e) {
+            CoreUtils.logWebServiceConnectionError(ADD_EVENT_ACTIVITY_TAG, e);
+        }
     }
 
     @Override
@@ -178,26 +209,82 @@ public class AddEventActivity extends BaseActivity {
 
     private void onSaveButtonClicked() {
         clearErrors();
-        FormValidator.validate(this, new SimpleErrorPopupCallback(this));
-        validate();
+        if(FormValidator.validate(this, new SimpleErrorPopupCallback(this)) && validate()) {
+            AddEventParams addEventParams = buildAddEventParams();
+            String paramsJson = gson.toJson(addEventParams);
+
+            try {
+                RoomiesRestClient.postJson(this, "events/add", paramsJson);
+            } catch (UnsupportedEncodingException e) {
+                logWebServiceConnectionError(ADD_EVENT_ACTIVITY_TAG, e);
+            }
+        }
+    }
+
+    private AddEventParams buildAddEventParams() {
+        EventType eventType = eventTypeCyclic.isChecked() ? EventType.CYCLIC : EventType.ONCE;
+        String name = eventName.getText().toString();
+        String start = startDateEdit.getText().toString();
+        String end = endDateEdit.getText().toString();
+
+        Integer intervalNumber = null;
+        Interval interval = null;
+        Boolean switchExecutor = null;
+        if(eventType.equals(EventType.CYCLIC)) {
+            intervalNumber = Integer.parseInt(intervalNumberEdit.getText().toString());
+            interval = (Interval) intervalSpinner.getSelectedItem();
+            switchExecutor = switchExecutorCheck.isChecked();
+        }
+
+        Boolean addReminder = addReminderCheck.isChecked();
+        ReminderType reminderType = null;
+        Integer reminderNumber = null;
+        Interval reminderInterval = null;
+        if(addReminder) {
+            reminderType = (ReminderType) reminderTypeSpinner.getSelectedItem();
+            reminderNumber = Integer.parseInt(reminderNumberEdit.getText().toString());
+            reminderInterval = (Interval) reminderIntervalSpinner.getSelectedItem();
+        }
+
+        Boolean withPunishment = withPunishmentCheck.isChecked();
+        PunishmentType punishmentType = null;
+        BigDecimal punishmentAmount = null;
+        if(withPunishment) {
+            punishmentType = (PunishmentType) punishmentTypeSpinner.getSelectedItem();
+        }
+        if(PunishmentType.FINANCIAL.equals(punishmentType)) {
+            punishmentAmount = new BigDecimal(punishmentAmountEdit.getText().toString());
+        }
+
+        List<MemberToAddData> eventMembers = CoreUtils.getMembersToAddFromListView(membersListView, members);
+        RequestParams requestParams = new RequestParams(LoginActivity.accountName);
+
+        return new AddEventParams(eventType, name, start, end, intervalNumber, interval, switchExecutor,
+                addReminder, reminderType, reminderNumber, reminderInterval, withPunishment, punishmentType,
+                punishmentAmount, eventMembers, requestParams);
     }
 
     private void clearErrors() {
         eventName.setError(null);
-        startDate.setError(null);
-        endDate.setError(null);
+        startDateEdit.setError(null);
+        endDateEdit.setError(null);
     }
 
     private boolean validate() {
         boolean valid = true;
 
+        LocalDate startDate = new LocalDate(startDateEdit.getText().toString());
+        LocalDate endDate = new LocalDate(endDateEdit.getText().toString());
+        if(startDate.isAfter(endDate)) {
+            endDateEdit.setError("End date can't be before start date");
+        }
         if(eventTypeCyclic.isChecked()) {
-            valid = validateIntervalNumber(intervalNumber);
+            valid = validateIntervalNumber(intervalNumberEdit);
         }
-        if(addReminder.isChecked()) {
-            valid = validateIntervalNumber(reminderNumber);
+        if(addReminderCheck.isChecked()) {
+            valid = validateIntervalNumber(reminderNumberEdit);
         }
-        if(withPunishment.isChecked() && PunishmentType.FINANCIAL.equals(punishmentType.getSelectedItem())) {
+        if(withPunishmentCheck.isChecked() && PunishmentType.FINANCIAL.equals(punishmentTypeSpinner.getSelectedItem())) {
             valid = validatePunishmentAmount();
         }
 
@@ -206,11 +293,11 @@ public class AddEventActivity extends BaseActivity {
 
     private boolean validatePunishmentAmount() {
         boolean valid = true;
-        String input = punishmentAmount.getText().toString();
+        String input = punishmentAmountEdit.getText().toString();
 
         if(StringUtils.isBlank(input)) {
             valid = false;
-            punishmentAmount.setError(getResources().getString(R.string.emptyFieldMessage));
+            punishmentAmountEdit.setError(getResources().getString(R.string.emptyFieldMessage));
         }
         else {
             BigDecimal inputDecimal;
@@ -218,7 +305,7 @@ public class AddEventActivity extends BaseActivity {
                 inputDecimal = new BigDecimal(input);
             }
             catch (NumberFormatException e) {
-                punishmentAmount.setError(getResources().getString(R.string.amount_bad_format_message));
+                punishmentAmountEdit.setError(getResources().getString(R.string.amount_bad_format_message));
                 return false;
             }
 
@@ -226,11 +313,11 @@ public class AddEventActivity extends BaseActivity {
             BigDecimal maxValue = new BigDecimal("99999.99");
             if(inputDecimal.compareTo(minValue) < 0) {
                 valid = false;
-                punishmentAmount.setError(getResources().getString(R.string.amount_min_value_message));
+                punishmentAmountEdit.setError(getResources().getString(R.string.amount_min_value_message));
             }
             else if(inputDecimal.compareTo(maxValue) > 0) {
                 valid = false;
-                punishmentAmount.setError(getResources().getString(R.string.amount_max_value_message));
+                punishmentAmountEdit.setError(getResources().getString(R.string.amount_max_value_message));
             }
         }
 
@@ -247,7 +334,7 @@ public class AddEventActivity extends BaseActivity {
         }
         else {
             int inputNumber = Integer.parseInt(input);
-            if(inputNumber < 1) {
+            if(inputNumber < 0) {
                 valid = false;
                 editText.setError(getResources().getString(R.string.min_interval_value_message));
             }
@@ -262,20 +349,20 @@ public class AddEventActivity extends BaseActivity {
 
     @OnItemSelected(R.id.add_event_punishment_spinner)
     public void onPunishmentTypeChanged(int position) {
-        Object selectedItem = punishmentType.getAdapter().getItem(position);
+        Object selectedItem = punishmentTypeSpinner.getAdapter().getItem(position);
         if(PunishmentType.FINANCIAL.equals(selectedItem)) {
-            punishmentAmount.setVisibility(View.VISIBLE);
+            punishmentAmountEdit.setVisibility(View.VISIBLE);
         }
         else {
-            punishmentAmount.setVisibility(View.INVISIBLE);
+            punishmentAmountEdit.setVisibility(View.INVISIBLE);
         }
     }
 
     @OnCheckedChanged(R.id.add_event_once_radio_button)
     public void onEventTypeOnceButtonClicked(boolean checked) {
-        switchExecutor.setEnabled(!checked);
+        switchExecutorCheck.setEnabled(!checked);
         intervalSpinner.setEnabled(!checked);
-        intervalNumber.setEnabled(!checked);
+        intervalNumberEdit.setEnabled(!checked);
     }
 
     @OnClick(R.id.add_event_start_date)
@@ -292,10 +379,10 @@ public class AddEventActivity extends BaseActivity {
     protected Dialog onCreateDialog(int id) {
         switch (id) {
             case START_DATE_PICKER_DIALOG_ID:
-                LocalDate start = new LocalDate(startDate.getText().toString());
+                LocalDate start = new LocalDate(startDateEdit.getText().toString());
                 return new DatePickerDialog(this, startDatePickerListener, start.getYear(), start.getMonthOfYear() - 1, start.getDayOfMonth());
             case END_DATE_PICKER_DIALOG_ID:
-                LocalDate end = new LocalDate(endDate.getText().toString());
+                LocalDate end = new LocalDate(endDateEdit.getText().toString());
                 return new DatePickerDialog(this, endDatePickerListener, end.getYear(), end.getMonthOfYear() - 1, end.getDayOfMonth());
         }
         return null;
@@ -308,7 +395,7 @@ public class AddEventActivity extends BaseActivity {
             int month = monthOfYear;
             int day = dayOfMonth;
 
-            startDate.setText(CoreUtils.formatDatePickerDate(year, month, day));
+            startDateEdit.setText(CoreUtils.formatDatePickerDate(year, month, day));
         }
     };
 
@@ -319,20 +406,20 @@ public class AddEventActivity extends BaseActivity {
             int month = monthOfYear;
             int day = dayOfMonth;
 
-            endDate.setText(CoreUtils.formatDatePickerDate(year, month, day));
+            endDateEdit.setText(CoreUtils.formatDatePickerDate(year, month, day));
         }
     };
 
     @OnCheckedChanged(R.id.add_event_reminder_check_box)
     public void onReminderCheckBoxChanged(boolean checked) {
-        reminderInterval.setEnabled(checked);
-        reminderNumber.setEnabled(checked);
-        reminderType.setEnabled(checked);
+        reminderIntervalSpinner.setEnabled(checked);
+        reminderNumberEdit.setEnabled(checked);
+        reminderTypeSpinner.setEnabled(checked);
     }
 
     @OnCheckedChanged(R.id.add_event_punishment_check_box)
     public void onPunishmentCheckBoxChanged(boolean checked) {
-        punishmentType.setEnabled(checked);
+        punishmentTypeSpinner.setEnabled(checked);
     }
 
 }

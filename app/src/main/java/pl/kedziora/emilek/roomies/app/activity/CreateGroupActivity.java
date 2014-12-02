@@ -91,6 +91,7 @@ public class CreateGroupActivity extends BaseActivity {
             Intent intent = new Intent(this, GroupActivity.class);
             intent.putExtra(CoreUtils.SEND_REQUEST_KEY, true);
             startActivity(intent);
+            finish();
         }
         else {
             Type listType = new TypeToken<ArrayList<MemberToAddData>>() {
