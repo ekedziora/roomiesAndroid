@@ -121,7 +121,7 @@
                 android:layout_alignBottom="@+id/add_event_interval_number"
                 android:layout_toLeftOf="@+id/add_event_interval_number"
                 android:layout_toStartOf="@+id/add_event_interval_number"
-                android:text="@string/repeat_every"
+                android:text="@string/repeat_after"
                 android:textSize="16sp"/>
 
             <Spinner
