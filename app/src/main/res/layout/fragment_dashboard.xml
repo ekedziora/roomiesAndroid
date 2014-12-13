@@ -1,0 +1,57 @@
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/dashboard_confirmations_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="15dp"
+                android:text="@string/confirmations"
+                android:textSize="18sp" />
+
+            <ListView
+                android:id="@+id/dashboard_confirmations_list_view"
+                android:layout_width="wrap_content"
+                android:layout_height="200dp"
+                android:layout_below="@id/dashboard_confirmations_label"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:choiceMode="singleChoice"
+                android:fadeScrollbars="false" />
+
+            <TextView
+                android:id="@+id/dashboard_announcement_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/dashboard_confirmations_list_view"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="15dp"
+                android:text="@string/announcements"
+                android:textSize="18sp" />
+
+            <ListView
+                android:id="@+id/dashboard_announcement_list_view"
+                android:layout_width="wrap_content"
+                android:layout_height="300dp"
+                android:layout_below="@id/dashboard_announcement_label"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:choiceMode="none"
+                android:fadeScrollbars="false" />
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+</RelativeLayout>

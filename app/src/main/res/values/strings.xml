@@ -54,20 +54,24 @@
     <string name="switch_executor">Switch executor</string>
     <string name="add_reminder">Add reminder</string>
     <string name="before">before</string>
-    <string name="with_punishment">With punishment</string>
+    <string name="with_punishment">With punishment and confirmation</string>
     <string name="with_confirmation">With confirmation</string>
     <string name="title_activity_events">Events</string>
     <string name="title_activity_add_event">Add event</string>
     <string name="change">Change</string>
     <string name="repeat_after">Repeat after </string>
     <string name="date_today_or_future_message">Date should be today or future</string>
-    <string name="min_interval_value_message">Interval number should be 0 or greater</string>
-    <string name="max_interval_value_message">Interval number should be less than 1000</string>
+    <string name="min_interval_value_message">This number should be 0 or greater</string>
+    <string name="max_interval_value_message">This number should be less than 1000</string>
     <string name="current_tasks">Current tasks</string>
     <string name="next_tasks">Next tasks</string>
     <string name="group_tasks">Your task groups</string>
     <string name="done">Done</string>
     <string name="show_all_tasks">Show all tasks</string>
     <string name="title_activity_all_tasks">All tasks</string>
+    <string name="confirmations">Confirmations</string>
+    <string name="announcements">Announcements</string>
+    <string name="undone">Not done</string>
+    <string name="time_for_objections">Time for objections(hours)</string>
 
 </resources>

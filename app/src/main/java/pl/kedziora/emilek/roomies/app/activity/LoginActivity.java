@@ -16,6 +16,7 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 
 import pl.kedziora.emilek.roomies.R;
 import pl.kedziora.emilek.roomies.app.utils.AlertDialogUtils;
+import pl.kedziora.emilek.roomies.app.utils.CoreUtils;
 import pl.kedziora.emilek.roomies.app.utils.ErrorMessages;
 
 public class LoginActivity extends Activity {
@@ -78,7 +79,10 @@ public class LoginActivity extends Activity {
             if(resultCode == RESULT_OK) {
                 accountName = data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
                 Log.i("Accounts", "Chosen account name: " + accountName);
-                startActivity(new Intent(this, DashboardActivity.class));
+                Intent intent = new Intent(this, DashboardActivity.class);
+                intent.putExtra(CoreUtils.SEND_REQUEST_KEY, true);
+                startActivity(intent);
+                finish();
             }
         }
     }

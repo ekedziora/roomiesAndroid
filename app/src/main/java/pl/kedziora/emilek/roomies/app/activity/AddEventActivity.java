@@ -40,7 +40,6 @@ import pl.kedziora.emilek.json.objects.data.MemberToAddData;
 import pl.kedziora.emilek.json.objects.enums.EventType;
 import pl.kedziora.emilek.json.objects.enums.Interval;
 import pl.kedziora.emilek.json.objects.enums.PunishmentType;
-import pl.kedziora.emilek.json.objects.enums.ReminderType;
 import pl.kedziora.emilek.json.objects.params.AddEventParams;
 import pl.kedziora.emilek.json.objects.params.RequestParams;
 import pl.kedziora.emilek.roomies.R;
@@ -86,17 +85,8 @@ public class AddEventActivity extends BaseActivity {
     @InjectView(R.id.add_event_switch_executor_check_box)
     CheckBox switchExecutorCheck;
 
-    @InjectView(R.id.add_event_reminder_check_box)
-    CheckBox addReminderCheck;
-
-    @InjectView(R.id.add_event_reminder_type_spinner)
-    Spinner reminderTypeSpinner;
-
-    @InjectView(R.id.add_event_reminder_interval_number)
-    EditText reminderNumberEdit;
-
-    @InjectView(R.id.add_event_reminder_interval_spinner)
-    Spinner reminderIntervalSpinner;
+    @InjectView(R.id.add_event_confirmation_number)
+    EditText confirmationNumberEdit;
 
     @InjectView(R.id.add_event_punishment_check_box)
     CheckBox withPunishmentCheck;
@@ -137,14 +127,11 @@ public class AddEventActivity extends BaseActivity {
 
     private void initDisabledElements() {
         onEventTypeOnceButtonClicked(true);
-        onReminderCheckBoxChanged(false);
         onPunishmentCheckBoxChanged(false);
     }
 
     private void initAdapters() {
-        reminderTypeSpinner.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, ReminderType.values()));
         intervalSpinner.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, Interval.values()));
-        reminderIntervalSpinner.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, Interval.values()));
         punishmentTypeSpinner.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, PunishmentType.values()));
     }
 
@@ -236,21 +223,13 @@ public class AddEventActivity extends BaseActivity {
             switchExecutor = switchExecutorCheck.isChecked();
         }
 
-        Boolean addReminder = addReminderCheck.isChecked();
-        ReminderType reminderType = null;
-        Integer reminderNumber = null;
-        Interval reminderInterval = null;
-        if(addReminder) {
-            reminderType = (ReminderType) reminderTypeSpinner.getSelectedItem();
-            reminderNumber = Integer.parseInt(reminderNumberEdit.getText().toString());
-            reminderInterval = (Interval) reminderIntervalSpinner.getSelectedItem();
-        }
-
         Boolean withPunishment = withPunishmentCheck.isChecked();
         PunishmentType punishmentType = null;
+        Integer confirmationNumber = null;
         BigDecimal punishmentAmount = null;
         if(withPunishment) {
             punishmentType = (PunishmentType) punishmentTypeSpinner.getSelectedItem();
+            confirmationNumber = Integer.parseInt(confirmationNumberEdit.getText().toString());
         }
         if(PunishmentType.FINANCIAL.equals(punishmentType)) {
             punishmentAmount = new BigDecimal(punishmentAmountEdit.getText().toString());
@@ -260,8 +239,7 @@ public class AddEventActivity extends BaseActivity {
         RequestParams requestParams = new RequestParams(LoginActivity.accountName);
 
         return new AddEventParams(eventType, name, start, end, intervalNumber, interval, switchExecutor,
-                addReminder, reminderType, reminderNumber, reminderInterval, withPunishment, punishmentType,
-                punishmentAmount, eventMembers, requestParams);
+                confirmationNumber, withPunishment, punishmentType, punishmentAmount, eventMembers, requestParams);
     }
 
     private void clearErrors() {
@@ -275,17 +253,17 @@ public class AddEventActivity extends BaseActivity {
 
         LocalDate startDate = new LocalDate(startDateEdit.getText().toString());
         LocalDate endDate = new LocalDate(endDateEdit.getText().toString());
-        if(startDate.isAfter(endDate)) {
+        if (startDate.isAfter(endDate)) {
             endDateEdit.setError("End date can't be before start date");
         }
-        if(eventTypeCyclic.isChecked()) {
+        if (eventTypeCyclic.isChecked()) {
             valid = validateIntervalNumber(intervalNumberEdit);
         }
-        if(addReminderCheck.isChecked()) {
-            valid = validateIntervalNumber(reminderNumberEdit);
-        }
-        if(withPunishmentCheck.isChecked() && PunishmentType.FINANCIAL.equals(punishmentTypeSpinner.getSelectedItem())) {
-            valid = validatePunishmentAmount();
+        if (withPunishmentCheck.isChecked()) {
+            valid = validateIntervalNumber(confirmationNumberEdit);
+            if (PunishmentType.FINANCIAL.equals(punishmentTypeSpinner.getSelectedItem())) {
+                valid = validatePunishmentAmount();
+            }
         }
 
         return valid;
@@ -410,16 +388,10 @@ public class AddEventActivity extends BaseActivity {
         }
     };
 
-    @OnCheckedChanged(R.id.add_event_reminder_check_box)
-    public void onReminderCheckBoxChanged(boolean checked) {
-        reminderIntervalSpinner.setEnabled(checked);
-        reminderNumberEdit.setEnabled(checked);
-        reminderTypeSpinner.setEnabled(checked);
-    }
-
     @OnCheckedChanged(R.id.add_event_punishment_check_box)
     public void onPunishmentCheckBoxChanged(boolean checked) {
         punishmentTypeSpinner.setEnabled(checked);
+        confirmationNumberEdit.setEnabled(checked);
     }
 
 }

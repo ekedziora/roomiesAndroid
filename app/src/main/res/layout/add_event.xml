@@ -143,57 +143,10 @@
                 android:text="@string/switch_executor" />
 
             <CheckBox
-                android:id="@+id/add_event_reminder_check_box"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/add_event_switch_executor_check_box"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="20dp"
-                android:text="@string/add_reminder" />
-
-            <Spinner
-                android:id="@+id/add_event_reminder_type_spinner"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/add_event_reminder_check_box"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="10dp" />
-
-            <EditText
-                android:id="@+id/add_event_reminder_interval_number"
-                android:layout_width="80dp"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/add_event_reminder_interval_spinner"
-                android:layout_toLeftOf="@+id/add_event_reminder_interval_spinner"
-                android:layout_toStartOf="@+id/add_event_reminder_interval_spinner"
-                android:inputType="number"
-                android:ems="10" />
-
-            <Spinner
-                android:id="@+id/add_event_reminder_interval_spinner"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/add_event_reminder_type_spinner"
-                android:layout_centerHorizontal="true"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="10dp"/>
-
-            <TextView
-                android:id="@+id/add_event_reminder_interval_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/add_event_reminder_interval_spinner"
-                android:layout_toEndOf="@+id/add_event_reminder_interval_spinner"
-                android:layout_toRightOf="@+id/add_event_reminder_interval_spinner"
-                android:text="@string/before"
-                android:textSize="16sp" />
-
-            <CheckBox
                 android:id="@+id/add_event_punishment_check_box"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/add_event_reminder_interval_spinner"
+                android:layout_below="@+id/add_event_switch_executor_check_box"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="20dp"
                 android:checked="false"
@@ -218,11 +171,24 @@
                 android:inputType="numberDecimal"
                 android:ems="10" />
 
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="@string/time_for_objections"
+                android:id="@+id/add_event_confirmation_number"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_below="@+id/add_event_punishment_amount"
+                android:layout_centerHorizontal="true"
+                android:inputType="number"
+                android:ems="10" />
+
             <ListView
                 android:id="@+id/add_event_members_list"
                 android:layout_width="wrap_content"
                 android:layout_height="300dp"
-                android:layout_below="@+id/add_event_punishment_amount"
+                android:layout_below="@+id/add_event_confirmation_number"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="20dp"
                 android:choiceMode="multipleChoice"
