@@ -120,6 +120,18 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="pl.kedziora.emilek.roomies.app.activity.EventsActivity" />
         </activity>
+        <activity
+            android:name=".app.activity.AnnouncementsActivity"
+            android:label="@string/title_activity_announcements" >
+        </activity>
+        <activity
+            android:name=".app.activity.AddAnnouncementActivity"
+            android:label="@string/title_activity_add_announcement"
+            android:parentActivityName=".app.activity.AnnouncementsActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="pl.kedziora.emilek.roomies.app.activity.AnnouncementsActivity" />
+        </activity>
     </application>
 
 </manifest>

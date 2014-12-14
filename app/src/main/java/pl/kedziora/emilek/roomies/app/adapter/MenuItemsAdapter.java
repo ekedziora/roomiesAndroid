@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import pl.kedziora.emilek.roomies.R;
 import pl.kedziora.emilek.roomies.app.activity.AccountActivity;
+import pl.kedziora.emilek.roomies.app.activity.AnnouncementsActivity;
 import pl.kedziora.emilek.roomies.app.activity.BudgetActivity;
 import pl.kedziora.emilek.roomies.app.activity.DashboardActivity;
 import pl.kedziora.emilek.roomies.app.activity.EventsActivity;
@@ -80,6 +81,11 @@ public class MenuItemsAdapter extends BaseAdapter {
                 }
                 else if(MenuUtils.MenuItem.EVENTS.equals(item)) {
                     Intent intent = new Intent(context, EventsActivity.class);
+                    intent.putExtra(CoreUtils.SEND_REQUEST_KEY, true);
+                    context.startActivity(intent);
+                }
+                else if(MenuUtils.MenuItem.ANNOUNCEMENTS.equals(item)) {
+                    Intent intent = new Intent(context, AnnouncementsActivity.class);
                     intent.putExtra(CoreUtils.SEND_REQUEST_KEY, true);
                     context.startActivity(intent);
                 }

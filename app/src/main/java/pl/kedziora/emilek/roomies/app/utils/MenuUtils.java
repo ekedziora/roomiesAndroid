@@ -20,7 +20,8 @@ public class MenuUtils {
         MY_ACCOUNT("My account", R.drawable.ic_my_account),
         GROUPS("Groups", R.drawable.ic_groups),
         BUDGET("Budget", R.drawable.ic_budget),
-        EVENTS("Events", R.drawable.ic_events);
+        EVENTS("Events", R.drawable.ic_events),
+        ANNOUNCEMENTS("Announcements", R.drawable.ic_announcements);
 
         private String text;
 

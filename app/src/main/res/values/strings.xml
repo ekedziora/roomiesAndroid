@@ -73,5 +73,8 @@
     <string name="announcements">Announcements</string>
     <string name="undone">Not done</string>
     <string name="time_for_objections">Time for objections(hours)</string>
+    <string name="title_activity_announcements">Announcements</string>
+    <string name="title_activity_add_announcement">Add announcement</string>
+    <string name="anonymous">Anonymous</string>
 
 </resources>
