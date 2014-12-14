@@ -23,6 +23,7 @@ import butterknife.InjectView;
 import butterknife.OnTouch;
 import pl.kedziora.emilek.json.objects.data.ConfirmationData;
 import pl.kedziora.emilek.json.objects.data.DashboardData;
+import pl.kedziora.emilek.json.objects.data.SingleAnnouncementData;
 import pl.kedziora.emilek.json.objects.params.NotDoneEntryParams;
 import pl.kedziora.emilek.json.objects.params.RequestParams;
 import pl.kedziora.emilek.roomies.R;
@@ -63,6 +64,7 @@ public class DashboardFragment extends Fragment {
         JsonElement data = activity.getData();
         DashboardData dashboardData = new Gson().fromJson(data, DashboardData.class);
         final List<ConfirmationData> confirmations = dashboardData.getConfirmations();
+        final List<SingleAnnouncementData> announcements = dashboardData.getAnnouncements();
 
         confirmationsListView.setAdapter(new ArrayAdapter<ConfirmationData>(activity, R.layout.confirmation_list_item, R.id.first_line, confirmations) {
             @Override
@@ -94,6 +96,34 @@ public class DashboardFragment extends Fragment {
                                         }
                                     }
                                 });
+                    }
+                });
+
+                return view;
+            }
+        });
+
+        announcementsListView.setAdapter(new ArrayAdapter<SingleAnnouncementData>(activity, android.R.layout.simple_list_item_2, android.R.id.text1, announcements) {
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View view = super.getView(position, convertView, parent);
+                TextView text1 = (TextView) view.findViewById(android.R.id.text1);
+                TextView text2 = (TextView) view.findViewById(android.R.id.text2);
+
+                final SingleAnnouncementData announcementData = announcements.get(position);
+
+                String temp = announcementData.getTitle();
+                if(announcementData.getUserName() != null) {
+                    temp += " - " + announcementData.getUserName();
+                }
+                final String title = temp;
+                text1.setText(title);
+                text2.setText(announcementData.getContent());
+
+                view.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        AlertDialogUtils.showDefaultAlertDialog(activity, title, announcementData.getContent(), "OK");
                     }
                 });
 

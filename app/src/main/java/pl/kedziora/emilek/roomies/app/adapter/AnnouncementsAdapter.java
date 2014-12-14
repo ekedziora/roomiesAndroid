@@ -54,7 +54,7 @@ public class AnnouncementsAdapter extends ArrayAdapter<SingleAnnouncementData> {
 
         String firstLineText = announcementData.getTitle();
         if(announcementData.getUserName() != null) {
-            firstLineText += ", " + announcementData.getUserName();
+            firstLineText += " - " + announcementData.getUserName();
         }
         firstLine.setText(firstLineText);
         secondLine.setText(announcementData.getContent());
