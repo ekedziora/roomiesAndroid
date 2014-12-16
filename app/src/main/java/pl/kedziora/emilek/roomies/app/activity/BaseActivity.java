@@ -1,7 +1,7 @@
 package pl.kedziora.emilek.roomies.app.activity;
 
-import android.app.Activity;
 import android.content.Intent;
+import android.support.v4.app.FragmentActivity;
 import android.view.MenuItem;
 
 import com.google.gson.Gson;
@@ -9,7 +9,7 @@ import com.google.gson.JsonElement;
 
 import pl.kedziora.emilek.roomies.app.tasks.GetUserAuthCodeTask;
 
-public abstract class BaseActivity extends Activity {
+public abstract class BaseActivity extends FragmentActivity {
 
     protected JsonElement data;
 

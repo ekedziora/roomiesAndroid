@@ -1,0 +1,14 @@
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/simple_fragment">
+
+            <ListView
+                android:id="@+id/simple_fragment_list_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:choiceMode="singleChoice"
+                android:fadeScrollbars="false" />
+
+</RelativeLayout>

@@ -18,7 +18,7 @@
     <string name="title_activity_my_account">My account</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_groups">Groups</string>
-    <string name="no_groups">You have no groups.</string>
+    <string name="no_groups">You have no groups</string>
     <string name="group_create">Create group</string>
     <string name="group_join">Join group</string>
     <string name="addressColon">Address:</string>

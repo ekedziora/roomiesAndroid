@@ -23,7 +23,7 @@
             <ListView
                 android:id="@+id/dashboard_confirmations_list_view"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="150dp"
                 android:layout_below="@id/dashboard_confirmations_label"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="10dp"
@@ -43,7 +43,7 @@
             <ListView
                 android:id="@+id/dashboard_announcement_list_view"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="250dp"
                 android:layout_below="@id/dashboard_announcement_label"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="10dp"

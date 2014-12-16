@@ -95,12 +95,6 @@
                 android:value="pl.kedziora.emilek.roomies.app.activity.BudgetActivity" />
         </activity>
         <activity
-            android:name=".app.activity.EventsActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/title_activity_events"
-            android:screenOrientation="portrait" >
-        </activity>
-        <activity
             android:name=".app.activity.AddEventActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_add_event"
@@ -111,26 +105,26 @@
                 android:value="pl.kedziora.emilek.roomies.app.activity.EventsActivity" />
         </activity>
         <activity
-            android:name=".app.activity.AllTasksActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/title_activity_all_tasks"
-            android:parentActivityName=".app.activity.EventsActivity"
-            android:screenOrientation="portrait" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="pl.kedziora.emilek.roomies.app.activity.EventsActivity" />
-        </activity>
-        <activity
             android:name=".app.activity.AnnouncementsActivity"
-            android:label="@string/title_activity_announcements" >
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_announcements"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".app.activity.AddAnnouncementActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_add_announcement"
-            android:parentActivityName=".app.activity.AnnouncementsActivity" >
+            android:parentActivityName=".app.activity.AnnouncementsActivity"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="pl.kedziora.emilek.roomies.app.activity.AnnouncementsActivity" />
+        </activity>
+        <activity
+            android:name=".app.activity.EventsActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_events"
+            android:screenOrientation="portrait">
         </activity>
     </application>
 
